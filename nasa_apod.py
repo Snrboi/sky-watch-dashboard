@@ -1,14 +1,3 @@
-"""
-nasa_apod.py
-Role 6: The NASA Photo Fetcher
-
-Fetches NASA's Astronomy Picture of the Day (APOD) and formats it for
-the Sky Watch Dashboard.
-
-Public functions (the "contract" other modules rely on):
-    get_apod(date=None) -> dict
-    print_apod(apod_data, truncate=True) -> None
-"""
 
 import os
 
@@ -27,19 +16,7 @@ DEMO_KEY = "DEMO_KEY"
 
 
 def get_apod(date: str = None) -> dict:
-    """
-    Fetch NASA's Astronomy Picture of the Day.
-
-    Args:
-        date: Optional string in 'YYYY-MM-DD' format. If None, fetches today's photo.
-
-    Returns:
-        A dict with keys: title, date, explanation, url, media_type.
-        If the request fails, returns a dict with an 'error' key instead,
-        so calling code can check for that and degrade gracefully
-        (this is what lets main.py show " NASA data unavailable" instead
-        of crashing the whole dashboard).
-    """
+   
     api_key = os.getenv("NASA_API_KEY", DEMO_KEY)
 
     params = {"api_key": api_key}
@@ -108,7 +85,7 @@ def print_apod(apod_data: dict, truncate: bool = True) -> None:
 
 # Lets you run this file directly for a quick manual check:
 #   python nasa_apod.py
-# if __name__ == "__main__":
-#     print("Fetching today's APOD...\n")
-#     result = get_apod()
-#     print_apod(result)
+if __name__ == "__main__":
+    print("Fetching today's APOD...\n")
+    result = get_apod()
+    print_apod(result)
