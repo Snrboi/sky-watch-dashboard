@@ -76,6 +76,7 @@ def print_next_pass(pass_data: dict):
     rise_time = user_timezone.strftime("%A, %I:%M %p %Z")
     direction = pass_data["direction"]
     duration_min = pass_data["duration"]//60
+    duration_sec = pass_data["duration"]%60
     height = pass_data["max_elevation"]
 
     if height >= 45:
@@ -90,7 +91,7 @@ def print_next_pass(pass_data: dict):
 
     print("🔭  NEXT ISS VISIBLE PASS")
     print(f"When: {rise_time}")
-    print(f"Duration: {duration_min} minute(s)")
+    print(f"Duration: {duration_min} minute(s) and {duration_sec} second(s)")
     print(f"Height: {height}° above the horizon")
     print(f"Tip: {tip}")
     print(telescope_status)
