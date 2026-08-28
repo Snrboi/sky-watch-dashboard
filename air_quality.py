@@ -1,5 +1,6 @@
 import os
 import requests
+from location import get_location
 
 BASE_URL = "https://api.openweathermap.org/data/2.5"
 TIMEOUT = 10
@@ -55,6 +56,6 @@ def print_air_quality(aq_data: dict) -> None:
     print(f"   SO₂: {p.get('so2')}  CO: {p.get('co')}  NH₃: {p.get('nh3')}  NO: {p.get('no')} μg/m³")
     print(f"   💡 {advice}\n")
 
-if __name__ == "__main__":
-    loc = {"city": "Port Harcourt", "country": "NG", "lat": 4.822219, "lon": 7.005408}
-    print_air_quality(get_air_quality(loc))
+# if __name__ == "__main__":
+    # loc = {"city": "Port Harcourt", "country": "NG", "lat": 4.822219, "lon": 7.005408}
+print_air_quality(get_air_quality(get_location()))
