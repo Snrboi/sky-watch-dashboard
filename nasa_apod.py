@@ -4,14 +4,11 @@ import os
 import requests
 from dotenv import load_dotenv
 
-# Load variables from a .env file in the project root into the environment.
-# If .env doesn't exist, this just does nothing (no crash).
 load_dotenv()
 
 APOD_URL = "https://api.nasa.gov/planetary/apod"
 
-# NASA provides a public rate-limited key for testing without signing up.
-# Real projects should still get a personal free key at api.nasa.gov.
+
 DEMO_KEY = "DEMO_KEY"
 
 
@@ -51,13 +48,7 @@ def get_apod(date: str = None) -> dict:
 
 
 def print_apod(apod_data: dict, truncate: bool = True) -> None:
-    """
-    Pretty-print an APOD dict as returned by get_apod().
-
-    Args:
-        apod_data: dict returned by get_apod()
-        truncate: if True, shows only the first ~200 chars of the explanation
-    """
+    
     if not apod_data or "error" in apod_data:
         error_msg = apod_data.get("error", "Unknown error") if apod_data else "No data"
         print(f"📷 NASA PHOTO OF THE DAY — ⚠️  unavailable ({error_msg})")
@@ -83,8 +74,7 @@ def print_apod(apod_data: dict, truncate: bool = True) -> None:
     print(f"View: {url}")
 
 
-# Lets you run this file directly for a quick manual check:
-#   python nasa_apod.py
+
 if __name__ == "__main__":
     print("Fetching today's APOD...\n")
     result = get_apod()
