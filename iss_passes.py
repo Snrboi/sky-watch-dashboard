@@ -41,7 +41,7 @@ def get_next_passes(location: dict):
         #like 404, 401, 500 etc
         response.raise_for_status()
     except RequestException as e:
-        print(f"{e}")
+        print(f"{e} kindly enter a valid location")
         return
 
     data = response.json()
@@ -98,10 +98,14 @@ def print_next_pass(pass_data: dict):
 
 # test case for both functions
 if __name__ == "__main__":
-    #test
     res = get_next_passes({"lat": 4.8242, "lon": 7.0336})
     print(res)
 
-    # where res is a list of dictionaries of all passes
-    # res[0] is a dictionary of the first pass
-    print_next_pass(res[0])
+    libra_ry = {
+        "rise_time": datetime.fromisoformat("2026-08-28T14:18:41Z"),
+        "direction": "NNW",
+        "duration": 402,
+        "max_elevation": 70.3
+    }
+
+    print_next_pass(libra_ry)

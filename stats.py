@@ -1,12 +1,12 @@
 from datetime import datetime
 
-history = [
-    {'timestamp': '2026-08-10T14:32:00', 'city': 'Port Harcourt', 'country': 'NG', 'temp_c': 28, 'aqi': 2, 'next_iss': '2026-08-11T06:42:00'},
-    {'timestamp': '2026-08-09T20:15:00', 'city': 'Lagos', 'country': 'NG', 'temp_c': 26, 'aqi': 1, 'next_iss': '2026-08-10T05:58:00'},
-    {'timestamp': '2026-08-08T07:03:00', 'city': 'Abuja', 'country': 'NG', 'temp_c': 24, 'aqi': 4, 'next_iss': None},
-    {'timestamp': '2026-08-08T18:20:00', 'city': 'Port Harcourt', 'country': 'NG', 'temp_c': 30, 'aqi': 3, 'next_iss': '2026-08-09T05:11:00'},
-    {'timestamp': '2026-08-07T09:45:00', 'city': 'Port Harcourt', 'country': 'NG', 'temp_c': 27, 'aqi': 5, 'next_iss': None},
-]
+# history = [
+#     {'timestamp': '2026-08-10T14:32:00', 'city': 'Port Harcourt', 'country': 'NG', 'temp_c': 28, 'aqi': 2, 'next_iss': '2026-08-11T06:42:00'},
+#     {'timestamp': '2026-08-09T20:15:00', 'city': 'Lagos', 'country': 'NG', 'temp_c': 26, 'aqi': 1, 'next_iss': '2026-08-10T05:58:00'},
+#     {'timestamp': '2026-08-08T07:03:00', 'city': 'Abuja', 'country': 'NG', 'temp_c': 24, 'aqi': 4, 'next_iss': None},
+#     {'timestamp': '2026-08-08T18:20:00', 'city': 'Port Harcourt', 'country': 'NG', 'temp_c': 30, 'aqi': 3, 'next_iss': '2026-08-09T05:11:00'},
+#     {'timestamp': '2026-08-07T09:45:00', 'city': 'Port Harcourt', 'country': 'NG', 'temp_c': 27, 'aqi': 5, 'next_iss': None},
+# ]
 
 def show_stats(history: list):
     # handle empty case first
@@ -88,4 +88,4 @@ def show_stats(history: list):
     print(f"Worst air quality: AQI {air_emojis[worst_air_quality]} {worst_air_quality} ({worst_air_date})")
     print(f"ISS passes tracked: {iss_count}")
 
-show_stats(history)
+# show_stats(history)
