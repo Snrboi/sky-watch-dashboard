@@ -1,0 +1,34 @@
+{
+  "_support": {"message": "Support this API with a tip", "url": "https://ko-fi.com/polluxlabs"},
+  "satellite": "ISS (ZARYA)",
+  "tle_epoch": "2026-10-07T19:42:27Z",
+  "tle_age_hours": 15.5,
+  "tle_stale": false,
+  "observer": {"lat": 4.8156, "lon": 7.0498, "elevation_m": 0.0},
+  "generated_at": "2026-10-08T11:14:22Z",
+  "params": {"min_elevation_deg": 10.0, "visible_only": true, "sun_alt_max_deg": -6.0, "days_ahead": 10, "days_ahead_capped": false},
+  "passes": [
+    {
+      "rise": {"time": "2026-10-09T04:11:11Z", "azimuth_deg": 169.3, "compass": "S"},
+      "culmination": {"time": "2026-10-09T04:13:31Z", "elevation_deg": 17.5},
+      "set": {"time": "2026-10-09T04:15:52Z", "azimuth_deg": 80.8, "compass": "E"},
+      "duration_sec": 404,
+      "above_horizon": true,
+      "visible": true,
+      "visible_start": "2026-10-09T04:11:11Z",
+      "visible_end": "2026-10-09T04:15:52Z",
+      "visible_duration_sec": 281
+    },
+    {
+      "rise": {"time": "2026-10-10T05:02:40Z", "azimuth_deg": 300.1, "compass": "NW"},
+      "culmination": {"time": "2026-10-10T05:05:10Z", "elevation_deg": 62.4},
+      "set": {"time": "2026-10-10T05:09:44Z", "azimuth_deg": 40.2, "compass": "NE"},
+      "duration_sec": 304,
+      "above_horizon": true,
+      "visible": true,
+      "visible_start": "2026-10-10T05:02:40Z",
+      "visible_end": "2026-10-10T05:09:44Z",
+      "visible_duration_sec": 303
+    }
+  ]
+}

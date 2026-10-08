@@ -1,0 +1,52 @@
+# Sky Watch backend, managed with uv. Run every command from backend/:
+#   uv run uvicorn app.main:app --reload --reload-dir app --host 127.0.0.1 --port 8000
+#   uv run pytest
+#   uv run ruff check app tests scripts
+# uv creates .venv on first use and installs the versions pinned in uv.lock.
+
+[project]
+name = "sky-watch-backend"
+version = "0.2.0"
+description = "Sky Watch API: weather, air quality, ISS position and passes, and NASA APOD."
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi==0.142.4",
+    "uvicorn==0.54.0",
+    "httpx==0.28.1",
+    "pydantic==2.13.5",
+    "pydantic-settings==2.15.0",
+    "pillow==12.3.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest==9.1.1",
+    "respx==0.23.1",
+    "ruff==0.16.10",
+    # Used only by scripts/build_land_mask.py, which samples the 1 km land data once.
+    # Not imported at runtime. Production installs skip the dev group (uv sync --no-dev).
+    "global-land-mask==1.0.0",
+    "numpy==2.5.3",
+]
+
+[tool.uv]
+# An application, not a library. Nothing is built or installed as a package.
+package = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "BLE", "DTZ", "RUF"]
+ignore = ["B008"]  # FastAPI dependency defaults
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["DTZ"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+filterwarnings = [
+  "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
