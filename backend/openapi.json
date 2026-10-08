@@ -1,0 +1,1847 @@
+{
+  "components": {
+    "schemas": {
+      "AirQuality": {
+        "properties": {
+          "advice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Advice"
+          },
+          "aqi": {
+            "anyOf": [
+              {
+                "maximum": 5.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aqi"
+          },
+          "color": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Color token: good, fair, moderate, poor, or very-poor.",
+            "title": "Color"
+          },
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Label"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "pollutants": {
+            "$ref": "#/components/schemas/Pollutants",
+            "description": "Concentrations in micrograms per cubic metre."
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "lat",
+          "lon",
+          "aqi",
+          "label",
+          "color",
+          "advice",
+          "pollutants"
+        ],
+        "title": "AirQuality",
+        "type": "object"
+      },
+      "ApodEntry": {
+        "properties": {
+          "copyright": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Copyright"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "explanation": {
+            "title": "Explanation",
+            "type": "string"
+          },
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "hdurl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Hdurl"
+          },
+          "is_placeholder": {
+            "description": "True when NASA returned its logo instead of a picture.",
+            "title": "Is Placeholder",
+            "type": "boolean"
+          },
+          "media_type": {
+            "title": "Media Type",
+            "type": "string"
+          },
+          "page_url": {
+            "title": "Page Url",
+            "type": "string"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Url"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "date",
+          "title",
+          "explanation",
+          "media_type",
+          "url",
+          "hdurl",
+          "copyright",
+          "page_url",
+          "is_placeholder"
+        ],
+        "title": "ApodEntry",
+        "type": "object"
+      },
+      "AqiRecord": {
+        "properties": {
+          "aqi": {
+            "title": "Aqi",
+            "type": "integer"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "aqi",
+          "label",
+          "date"
+        ],
+        "title": "AqiRecord",
+        "type": "object"
+      },
+      "Background": {
+        "properties": {
+          "credit": {
+            "title": "Credit",
+            "type": "string"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "fallback_reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fallback Reason"
+          },
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "hd_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Larger image for screens 1600 px and wider.",
+            "title": "Hd Url"
+          },
+          "image_url": {
+            "title": "Image Url",
+            "type": "string"
+          },
+          "is_fallback": {
+            "title": "Is Fallback",
+            "type": "boolean"
+          },
+          "page_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Page Url"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "date",
+          "title",
+          "image_url",
+          "hd_url",
+          "credit",
+          "page_url",
+          "is_fallback",
+          "fallback_reason"
+        ],
+        "title": "Background",
+        "type": "object"
+      },
+      "CityCount": {
+        "properties": {
+          "city": {
+            "title": "City",
+            "type": "string"
+          },
+          "lookups": {
+            "title": "Lookups",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "city",
+          "lookups"
+        ],
+        "title": "CityCount",
+        "type": "object"
+      },
+      "GeocodeResponse": {
+        "properties": {
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "query": {
+            "title": "Query",
+            "type": "string"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/Place"
+            },
+            "maxItems": 5,
+            "title": "Results",
+            "type": "array"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "query",
+          "results"
+        ],
+        "title": "GeocodeResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "Health": {
+        "properties": {
+          "status": {
+            "const": "ok",
+            "title": "Status",
+            "type": "string"
+          },
+          "time": {
+            "format": "date-time",
+            "title": "Time",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "version",
+          "time"
+        ],
+        "title": "Health",
+        "type": "object"
+      },
+      "IssPass": {
+        "properties": {
+          "culmination_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Culmination At"
+          },
+          "max_elevation_deg": {
+            "title": "Max Elevation Deg",
+            "type": "number"
+          },
+          "rating": {
+            "enum": [
+              "excellent",
+              "good",
+              "low"
+            ],
+            "title": "Rating",
+            "type": "string"
+          },
+          "rating_label": {
+            "title": "Rating Label",
+            "type": "string"
+          },
+          "rise_at": {
+            "format": "date-time",
+            "title": "Rise At",
+            "type": "string"
+          },
+          "rise_azimuth_deg": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rise Azimuth Deg"
+          },
+          "rise_compass": {
+            "title": "Rise Compass",
+            "type": "string"
+          },
+          "set_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Set At"
+          },
+          "visible_duration_sec": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Visible Duration Sec"
+          },
+          "visible_end": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Visible End"
+          },
+          "visible_start": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Visible Start"
+          }
+        },
+        "required": [
+          "rise_at",
+          "rise_compass",
+          "rise_azimuth_deg",
+          "culmination_at",
+          "max_elevation_deg",
+          "set_at",
+          "visible_start",
+          "visible_end",
+          "visible_duration_sec",
+          "rating",
+          "rating_label"
+        ],
+        "title": "IssPass",
+        "type": "object"
+      },
+      "IssPosition": {
+        "properties": {
+          "altitude_km": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Altitude Km"
+          },
+          "distance_km": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Great-circle distance from the chosen place, when given.",
+            "title": "Distance Km"
+          },
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "observed_at": {
+            "format": "date-time",
+            "title": "Observed At",
+            "type": "string"
+          },
+          "region": {
+            "description": "Rough place name, always phrased \"Roughly over ...\".",
+            "title": "Region",
+            "type": "string"
+          },
+          "source": {
+            "enum": [
+              "wheretheiss.at",
+              "open-notify"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "sunlit": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "False when the station is in Earth's shadow.",
+            "title": "Sunlit"
+          },
+          "velocity_kmh": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Velocity Kmh"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "lat",
+          "lon",
+          "altitude_km",
+          "velocity_kmh",
+          "sunlit",
+          "observed_at",
+          "region",
+          "distance_km",
+          "source"
+        ],
+        "title": "IssPosition",
+        "type": "object"
+      },
+      "LookupEntry": {
+        "properties": {
+          "aqi": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aqi"
+          },
+          "city": {
+            "title": "City",
+            "type": "string"
+          },
+          "country": {
+            "title": "Country",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "next_pass_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Pass At"
+          },
+          "recorded_at": {
+            "format": "date-time",
+            "title": "Recorded At",
+            "type": "string"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          },
+          "temp_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Temp C"
+          }
+        },
+        "required": [
+          "id",
+          "recorded_at",
+          "city",
+          "state",
+          "country",
+          "lat",
+          "lon",
+          "temp_c",
+          "aqi",
+          "next_pass_at"
+        ],
+        "title": "LookupEntry",
+        "type": "object"
+      },
+      "LookupList": {
+        "properties": {
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/LookupEntry"
+            },
+            "title": "Entries",
+            "type": "array"
+          }
+        },
+        "required": [
+          "entries"
+        ],
+        "title": "LookupList",
+        "type": "object"
+      },
+      "LookupRequest": {
+        "properties": {
+          "city": {
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "City",
+            "type": "string"
+          },
+          "country": {
+            "default": "",
+            "maxLength": 100,
+            "title": "Country",
+            "type": "string"
+          },
+          "lat": {
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Lon",
+            "type": "number"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "maxLength": 100,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          }
+        },
+        "required": [
+          "city",
+          "lat",
+          "lon"
+        ],
+        "title": "LookupRequest",
+        "type": "object"
+      },
+      "LookupResult": {
+        "properties": {
+          "entry": {
+            "$ref": "#/components/schemas/LookupEntry"
+          },
+          "recorded": {
+            "description": "False when the same place was saved less than 30 minutes ago.",
+            "title": "Recorded",
+            "type": "boolean"
+          },
+          "throttled_until": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Throttled Until"
+          }
+        },
+        "required": [
+          "recorded",
+          "entry",
+          "throttled_until"
+        ],
+        "title": "LookupResult",
+        "type": "object"
+      },
+      "PassList": {
+        "properties": {
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "passes": {
+            "items": {
+              "$ref": "#/components/schemas/IssPass"
+            },
+            "maxItems": 5,
+            "title": "Passes",
+            "type": "array"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "tle_age_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tle Age Hours"
+          },
+          "tle_epoch": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tle Epoch"
+          },
+          "tle_stale": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "True when the orbit data is old enough to lose accuracy.",
+            "title": "Tle Stale"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "lat",
+          "lon",
+          "passes",
+          "tle_epoch",
+          "tle_age_hours",
+          "tle_stale"
+        ],
+        "title": "PassList",
+        "type": "object"
+      },
+      "Place": {
+        "properties": {
+          "country": {
+            "title": "Country",
+            "type": "string"
+          },
+          "lat": {
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Lon",
+            "type": "number"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "State"
+          }
+        },
+        "required": [
+          "name",
+          "country",
+          "lat",
+          "lon"
+        ],
+        "title": "Place",
+        "type": "object"
+      },
+      "Pollutants": {
+        "properties": {
+          "co": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Co"
+          },
+          "nh3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nh3"
+          },
+          "no": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "No"
+          },
+          "no2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "No2"
+          },
+          "o3": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "O3"
+          },
+          "pm10": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pm10"
+          },
+          "pm2_5": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pm2 5"
+          },
+          "so2": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "So2"
+          }
+        },
+        "required": [
+          "pm2_5",
+          "pm10",
+          "o3",
+          "no2",
+          "so2",
+          "co",
+          "nh3",
+          "no"
+        ],
+        "title": "Pollutants",
+        "type": "object"
+      },
+      "Stats": {
+        "properties": {
+          "average_temp_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Average Temp C"
+          },
+          "best_aqi": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AqiRecord"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "days_active": {
+            "description": "Distinct UTC dates with at least one lookup.",
+            "title": "Days Active",
+            "type": "integer"
+          },
+          "lookups_with_pass": {
+            "description": "Lookups where an ISS pass was found.",
+            "title": "Lookups With Pass",
+            "type": "integer"
+          },
+          "most_searched_city": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CityCount"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "total_lookups": {
+            "title": "Total Lookups",
+            "type": "integer"
+          },
+          "trend": {
+            "items": {
+              "$ref": "#/components/schemas/TrendPoint"
+            },
+            "title": "Trend",
+            "type": "array"
+          },
+          "unique_cities": {
+            "title": "Unique Cities",
+            "type": "integer"
+          },
+          "worst_aqi": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AqiRecord"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "total_lookups",
+          "days_active",
+          "unique_cities",
+          "most_searched_city",
+          "average_temp_c",
+          "best_aqi",
+          "worst_aqi",
+          "lookups_with_pass",
+          "trend"
+        ],
+        "title": "Stats",
+        "type": "object"
+      },
+      "TrendPoint": {
+        "properties": {
+          "avg_aqi": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Aqi"
+          },
+          "avg_temp_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Avg Temp C"
+          },
+          "date": {
+            "title": "Date",
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "avg_temp_c",
+          "avg_aqi"
+        ],
+        "title": "TrendPoint",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Weather": {
+        "properties": {
+          "condition": {
+            "description": "OpenWeatherMap main condition, for example Clouds.",
+            "title": "Condition",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "feels_like_c": {
+            "title": "Feels Like C",
+            "type": "number"
+          },
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "humidity_pct": {
+            "title": "Humidity Pct",
+            "type": "integer"
+          },
+          "icon": {
+            "description": "Icon token such as clear, clouds, rain, fog, or unknown.",
+            "title": "Icon",
+            "type": "string"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          },
+          "temp_c": {
+            "title": "Temp C",
+            "type": "number"
+          },
+          "wind_kph": {
+            "title": "Wind Kph",
+            "type": "number"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "lat",
+          "lon",
+          "temp_c",
+          "feels_like_c",
+          "humidity_pct",
+          "wind_kph",
+          "condition",
+          "description",
+          "icon"
+        ],
+        "title": "Weather",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "summary": "Weather, air quality, the ISS, and NASA's picture of the day.",
+    "title": "Sky Watch API",
+    "version": "0.2.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/air-quality": {
+      "get": {
+        "operationId": "air_quality_api_air_quality_get",
+        "parameters": [
+          {
+            "description": "Latitude in degrees.",
+            "in": "query",
+            "name": "lat",
+            "required": true,
+            "schema": {
+              "description": "Latitude in degrees.",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Lat",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Longitude in degrees.",
+            "in": "query",
+            "name": "lon",
+            "required": true,
+            "schema": {
+              "description": "Longitude in degrees.",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Lon",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AirQuality"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Air quality at a place",
+        "tags": [
+          "air-quality"
+        ]
+      }
+    },
+    "/api/apod": {
+      "get": {
+        "operationId": "apod_entry_api_apod_get",
+        "parameters": [
+          {
+            "description": "YYYY-MM-DD. Defaults to today.",
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 10,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "YYYY-MM-DD. Defaults to today.",
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApodEntry"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "NASA picture of the day",
+        "tags": [
+          "apod"
+        ]
+      }
+    },
+    "/api/apod/background": {
+      "get": {
+        "operationId": "apod_background_api_apod_background_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Background"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Background image for every page",
+        "tags": [
+          "apod"
+        ]
+      }
+    },
+    "/api/geocode": {
+      "get": {
+        "operationId": "geocode_api_geocode_get",
+        "parameters": [
+          {
+            "description": "City name, optionally with a state or country.",
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "description": "City name, optionally with a state or country.",
+              "maxLength": 100,
+              "title": "Q",
+              "type": "string"
+            }
+          },
+          {
+            "description": "Maximum number of matches.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 5,
+              "description": "Maximum number of matches.",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeocodeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Search for a city",
+        "tags": [
+          "geocode"
+        ]
+      }
+    },
+    "/api/health": {
+      "get": {
+        "operationId": "health_api_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Health"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Service status",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/api/history": {
+      "get": {
+        "operationId": "list_history_api_history_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Only this city.",
+            "in": "query",
+            "name": "city",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maxLength": 100,
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only this city.",
+              "title": "City"
+            }
+          },
+          {
+            "description": "Random per-browser ID.",
+            "in": "header",
+            "name": "x-client-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Random per-browser ID.",
+              "title": "X-Client-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LookupList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Past lookups, newest first",
+        "tags": [
+          "history"
+        ]
+      },
+      "post": {
+        "operationId": "record_lookup_api_history_post",
+        "parameters": [
+          {
+            "description": "Random per-browser ID.",
+            "in": "header",
+            "name": "x-client-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Random per-browser ID.",
+              "title": "X-Client-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LookupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LookupResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Record a lookup for a place",
+        "tags": [
+          "history"
+        ]
+      }
+    },
+    "/api/history/stats": {
+      "get": {
+        "operationId": "history_stats_api_history_stats_get",
+        "parameters": [
+          {
+            "description": "Random per-browser ID.",
+            "in": "header",
+            "name": "x-client-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Random per-browser ID.",
+              "title": "X-Client-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Stats"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Statistics over past lookups",
+        "tags": [
+          "history"
+        ]
+      }
+    },
+    "/api/iss/passes": {
+      "get": {
+        "operationId": "iss_passes_api_iss_passes_get",
+        "parameters": [
+          {
+            "description": "Latitude in degrees.",
+            "in": "query",
+            "name": "lat",
+            "required": true,
+            "schema": {
+              "description": "Latitude in degrees.",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Lat",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Longitude in degrees.",
+            "in": "query",
+            "name": "lon",
+            "required": true,
+            "schema": {
+              "description": "Longitude in degrees.",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Lon",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Maximum number of passes.",
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 5,
+              "description": "Maximum number of passes.",
+              "maximum": 5,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PassList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Next visible ISS passes",
+        "tags": [
+          "iss"
+        ]
+      }
+    },
+    "/api/iss/position": {
+      "get": {
+        "operationId": "iss_position_api_iss_position_get",
+        "parameters": [
+          {
+            "description": "Optional place latitude.",
+            "in": "query",
+            "name": "lat",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 90,
+                  "minimum": -90,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional place latitude.",
+              "title": "Lat"
+            }
+          },
+          {
+            "description": "Optional place longitude.",
+            "in": "query",
+            "name": "lon",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "maximum": 180,
+                  "minimum": -180,
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional place longitude.",
+              "title": "Lon"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssPosition"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Live ISS position",
+        "tags": [
+          "iss"
+        ]
+      }
+    },
+    "/api/weather": {
+      "get": {
+        "operationId": "current_weather_api_weather_get",
+        "parameters": [
+          {
+            "description": "Latitude in degrees.",
+            "in": "query",
+            "name": "lat",
+            "required": true,
+            "schema": {
+              "description": "Latitude in degrees.",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Lat",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Longitude in degrees.",
+            "in": "query",
+            "name": "lon",
+            "required": true,
+            "schema": {
+              "description": "Longitude in degrees.",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Lon",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Weather"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Current weather at a place",
+        "tags": [
+          "weather"
+        ]
+      }
+    }
+  }
+}

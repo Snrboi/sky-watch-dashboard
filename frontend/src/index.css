@@ -1,0 +1,135 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Tokens from Tailwind to CSS variables. Keep this list in step with :root below. */
+@theme inline {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-sans);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sky: var(--sky);
+  --color-aqi-good: var(--aqi-good);
+  --color-aqi-fair: var(--aqi-fair);
+  --color-aqi-moderate: var(--aqi-moderate);
+  --color-aqi-poor: var(--aqi-poor);
+  --color-aqi-very-poor: var(--aqi-very-poor);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* Dark only in v1. Neutral slate surfaces, one cool accent (sky) for interaction. */
+:root,
+.dark {
+  color-scheme: dark;
+  --radius: 0.875rem;
+  --background: oklch(0.14 0.012 258);
+  --foreground: oklch(0.975 0.004 258);
+  --card: oklch(0.2 0.012 258 / 0.5);
+  --card-foreground: oklch(0.975 0.004 258);
+  --popover: oklch(0.2 0.012 258 / 0.94);
+  --popover-foreground: oklch(0.975 0.004 258);
+  --primary: oklch(0.84 0.1 232);
+  --primary-foreground: oklch(0.18 0.03 245);
+  --secondary: oklch(1 0 0 / 0.08);
+  --secondary-foreground: oklch(0.96 0.005 258);
+  --muted: oklch(1 0 0 / 0.07);
+  --muted-foreground: oklch(0.8 0.012 258);
+  --accent: oklch(1 0 0 / 0.1);
+  --accent-foreground: oklch(0.975 0.004 258);
+  --destructive: oklch(0.72 0.17 25);
+  --border: oklch(1 0 0 / 0.1);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.84 0.1 232 / 0.75);
+  --sky: oklch(0.84 0.1 232);
+  --chart-1: oklch(0.84 0.1 232);
+  --chart-2: oklch(0.82 0.16 75);
+  --chart-3: oklch(0.7 0.02 258);
+  --chart-4: oklch(0.8 0.12 160);
+  --chart-5: oklch(0.7 0.14 300);
+  /* AQI colours mean AQI and nothing else. Do not reuse them for other meanings. */
+  --aqi-good: oklch(0.8 0.17 152);
+  --aqi-fair: oklch(0.86 0.18 128);
+  --aqi-moderate: oklch(0.87 0.16 90);
+  --aqi-poor: oklch(0.75 0.18 55);
+  --aqi-very-poor: oklch(0.68 0.21 25);
+}
+
+/* Frosted glass: translucent fill, backdrop blur, hairline border, soft depth. */
+@utility glass {
+  background-color: oklch(0.2 0.012 258 / 0.5);
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border: 1px solid oklch(1 0 0 / 0.1);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.06),
+    0 28px 60px -32px oklch(0 0 0 / 0.7);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100dvh;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: oklch(0.84 0.1 232 / 0.35);
+  }
+}
+
+/* Users who ask for less motion get state changes without the movement. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
