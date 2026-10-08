@@ -1,0 +1,10 @@
+{
+  "date": "2026-10-07",
+  "title": "A Test Nebula",
+  "explanation": "A sample explanation for tests.",
+  "media_type": "image",
+  "url": "https://apod.nasa.gov/apod/image/2610/nebula_1200.jpg",
+  "hdurl": "https://apod.nasa.gov/apod/image/2610/nebula_hd.jpg",
+  "copyright": "  Jane Astronomer\n",
+  "service_version": "v1"
+}
