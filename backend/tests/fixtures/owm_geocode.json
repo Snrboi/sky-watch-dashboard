@@ -1,0 +1,5 @@
+[
+  {"name": "Port Harcourt", "local_names": {"en": "Port Harcourt"}, "lat": 4.8156, "lon": 7.0498, "country": "NG", "state": "Rivers"},
+  {"name": "Port Harcourt", "lat": 4.8156, "lon": 7.0498, "country": "NG", "state": "Rivers"},
+  {"name": "Portharcourt Road", "lat": 5.02, "lon": 7.1, "country": "NG"}
+]

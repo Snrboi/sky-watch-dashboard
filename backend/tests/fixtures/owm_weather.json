@@ -1,0 +1,10 @@
+{
+  "coord": {"lon": 7.0498, "lat": 4.8156},
+  "weather": [{"id": 802, "main": "Clouds", "description": "scattered clouds", "icon": "03d"}],
+  "main": {"temp": 28.4, "feels_like": 33.1, "temp_min": 27.9, "temp_max": 29.0, "pressure": 1011, "humidity": 78},
+  "visibility": 9000,
+  "wind": {"speed": 4.2, "deg": 210},
+  "clouds": {"all": 40},
+  "name": "Port Harcourt",
+  "cod": 200
+}
