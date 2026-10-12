@@ -20,10 +20,11 @@ from app.config import Settings, get_settings
 from app.deps import AppContext
 from app.errors import register_exception_handlers
 from app.routes import api_router
-from app.storage import JsonHistoryRepository
+from app.storage import HistoryRepository, JsonHistoryRepository
 from app.upstream import UpstreamClient
 
 FRONTEND_DIST = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+logger = logging.getLogger(__name__)
 
 
 def mount_frontend(app: FastAPI) -> None:
@@ -45,6 +46,21 @@ def mount_frontend(app: FastAPI) -> None:
         return FileResponse(index_file)
 
 
+def build_history_repository(settings: Settings) -> HistoryRepository:
+    """PostgreSQL when DATABASE_URL is set, the JSON file otherwise.
+
+    The database import is inside this function, so a JSON-only run never needs the driver
+    at import time. Nothing connects here either: the pool opens on the first history
+    request, so a database that is down does not stop the app from starting.
+    """http://127.0.0.1:8000
+    if not settings.database_url:
+        return JsonHistoryRepository(settings.history_path)
+
+    from app.storage_postgres import PostgresHistoryRepository
+
+    return PostgresHistoryRepository(settings.database_url, max_size=settings.db_pool_max_size)
+
+
 def create_app(settings: Settings | None = None) -> FastAPI:
     settings = settings or get_settings()
     logging.basicConfig(
@@ -52,17 +68,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         format="%(asctime)s %(levelname)s %(name)s: %(message)s",
     )
     logging.getLogger("httpx").setLevel(logging.WARNING)  # one line per upstream call is noise
+    logger.info("History backend: %s", settings.history_backend)
     ctx = AppContext(
         settings=settings,
         http=UpstreamClient(),
         cache=TTLCache(),
-        history=JsonHistoryRepository(settings.history_path),
+        history=build_history_repository(settings),
         lookup_lock=threading.Lock(),
     )
 
     @asynccontextmanager
     async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
         yield
+        ctx.history.close()
         ctx.http.close()
 
     app = FastAPI(
