@@ -60,6 +60,20 @@ class UpstreamClient:
                 f"{_label(source)} sent a response that is not JSON.", source=source
             ) from error
 
+    def get_text(
+        self,
+        source: str,
+        url: str,
+        params: Mapping[str, Any] | None = None,
+        *,
+        headers: Mapping[str, str] | None = None,
+    ) -> str:
+        """GET a URL and return the body as text. Raises UpstreamUnavailableError.
+
+        Used for HTML pages, so the caller can override the Accept header.
+        """
+        return self._get(source, url, params, headers=headers).text
+
     def image_size(
         self, source: str, url: str, *, max_bytes: int = 2_000_000
     ) -> tuple[int, int] | None:
@@ -94,11 +108,18 @@ class UpstreamClient:
                 source=source,
             ) from error
 
-    def _get(self, source: str, url: str, params: Mapping[str, Any] | None) -> httpx.Response:
+    def _get(
+        self,
+        source: str,
+        url: str,
+        params: Mapping[str, Any] | None,
+        *,
+        headers: Mapping[str, str] | None = None,
+    ) -> httpx.Response:
         problem = "no response"
         for attempt in (1, 2):
             try:
-                response = self._client.get(url, params=params)
+                response = self._client.get(url, params=params, headers=headers)
             except httpx.TimeoutException:
                 problem = f"timed out after {TIMEOUT_SECONDS:.0f} s"
             except httpx.HTTPError as error:
