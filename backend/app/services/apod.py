@@ -19,9 +19,11 @@ logger = logging.getLogger(__name__)
 SOURCE = "apod"
 APOD_URL = "https://api.nasa.gov/planetary/apod"
 # NASA moved its APOD pages to science.nasa.gov, and the JSON API above has been answering
-# with the NASA logo instead of the picture (every day tested on 2026-10-12, which is why
-# the dashboard showed the generated night sky). This page still carries the real image and
-# a link to the day's article, and it is addressable by date: ?date=YYYY-MM-DD.
+# with the NASA logo instead of the picture, and the same explanation text for every date
+# (every day tested on 2026-10-12 and 2026-10-13, which is why the dashboard showed the
+# generated night sky and the Photo page repeated today's text). This page carries the real
+# picture, the day's own explanation, and a link to the article, addressable by date:
+# ?date=YYYY-MM-DD.
 SCIENCE_PAGE_URL = "https://science.nasa.gov/apod/"
 HTML_HEADERS = {"Accept": "text/html,application/xhtml+xml"}
 SCIENCE_ARTICLE_TYPE = "NewsArticle"
@@ -42,6 +44,11 @@ FALLBACK_IMAGE_URL = "/fallback/night-sky.jpg"
 FALLBACK_CREDIT = "Generated background"
 DATE_PATTERN = re.compile(r"\d{4}-\d{2}-\d{2}")
 LD_JSON_BLOCK = re.compile(r"<script[^>]*application/ld\+json[^>]*>(.*?)</script>", re.DOTALL)
+PAGE_DESCRIPTION_BLOCK = re.compile(
+    r"<p[^>]*media-detail-hero__description[^>]*>(.*?)</p>", re.DOTALL | re.IGNORECASE
+)
+EXPLANATION_LABEL = re.compile(r"^\s*Explanation:\s*", re.IGNORECASE)
+TOMORROW_MARKER = "Tomorrow's picture:"
 HEADLINE_PREFIX = re.compile(r"^\s*APOD:\s*\d{4}\s+\w+\s+\d{1,2}\s*[-\u2013\u2014]\s*")
 
 
@@ -84,7 +91,7 @@ def get_apod(ctx: "AppContext", day: str | None, today: date) -> Cached[dict[str
             "is_placeholder": is_placeholder(url, title),
         }
         if entry["is_placeholder"]:
-            _replace_placeholder_image(ctx, entry)
+            _use_nasa_page(ctx, entry)
         return entry
 
     return ctx.cache.get_or_fetch(f"apod:{day or 'latest'}", ttl, fetch)
@@ -109,8 +116,12 @@ def get_background(ctx: "AppContext", today: date) -> Cached[dict[str, Any]]:
         )
 
 
-def _replace_placeholder_image(ctx: "AppContext", entry: dict[str, Any]) -> None:
-    """Fill in the picture from NASA's APOD page when the API sends its logo.
+def _use_nasa_page(ctx: "AppContext", entry: dict[str, Any]) -> None:
+    """Fill in the picture and the text from NASA's APOD page.
+
+    The JSON API ignores the date for everything except the date field itself: it answers with
+    its logo, the title "NASA Science", and the same explanation on every date. The page has
+    the real picture and the day's own explanation.
 
     Nothing is raised here. If the page cannot be read or holds no picture, the entry keeps
     the placeholder flag, and the caller falls back to the generated background as before.
@@ -121,21 +132,22 @@ def _replace_placeholder_image(ctx: "AppContext", entry: dict[str, Any]) -> None
     except UpstreamUnavailableError as error:
         logger.info("APOD page could not be read for %s: %s", day, error.message)
         return
-    found = _image_from_page(html)
-    if found is None:
+    details = _details_from_page(html)
+    if details is None:
         logger.info("No picture found on NASA's APOD page for %s", day)
         return
-    image_url, article_url, title = found
-    entry["url"] = image_url
+    entry["url"] = details["image_url"] or entry["url"]
     entry["hdurl"] = None
-    entry["title"] = title or entry["title"]
-    entry["page_url"] = article_url or entry["page_url"]
+    entry["title"] = details["title"] or entry["title"]
+    entry["page_url"] = details["page_url"] or entry["page_url"]
+    if details["explanation"]:
+        entry["explanation"] = details["explanation"]
     entry["is_placeholder"] = False
-    logger.info("APOD picture for %s came from NASA's page, not the JSON API", day)
+    logger.info("APOD picture and text for %s came from NASA's page, not the JSON API", day)
 
 
-def _image_from_page(html: str) -> tuple[str, str | None, str | None] | None:
-    """The picture URL, the article URL, and the title from a page's schema.org block."""
+def _details_from_page(html: str) -> dict[str, str | None] | None:
+    """Picture URL, article URL, title, and explanation from NASA's page. None when no picture."""
     for block in LD_JSON_BLOCK.findall(html):
         try:
             data = json.loads(block)
@@ -150,12 +162,33 @@ def _image_from_page(html: str) -> tuple[str, str | None, str | None] | None:
         if not isinstance(url, str) or not url.startswith("https://"):
             continue
         article = data.get("url")
-        return (
-            sized_asset_url(url),
-            article if isinstance(article, str) else None,
-            _clean_headline(str(data.get("headline") or "")),
-        )
+        return {
+            "image_url": sized_asset_url(url),
+            "page_url": article if isinstance(article, str) else None,
+            "title": _clean_headline(str(data.get("headline") or "")),
+            "explanation": _explanation_from_page(html),
+        }
     return None
+
+
+def _explanation_from_page(html: str) -> str | None:
+    """The day's own explanation paragraph, without its "Explanation:" label.
+
+    Inline tags are removed without adding spaces, so links and emphasis stay inside their
+    sentence. Line breaks become spaces. NASA appends "Tomorrow's picture:" to the same
+    paragraph, and that tail is dropped.
+    """
+    match = PAGE_DESCRIPTION_BLOCK.search(html)
+    if match is None:
+        return None
+    text = re.sub(r"<br\s*/?>", " ", match.group(1), flags=re.IGNORECASE)
+    text = re.sub(r"<[^>]+>", "", text)
+    text = " ".join(unescape(text).split())
+    text = EXPLANATION_LABEL.sub("", text)
+    marker = text.find(TOMORROW_MARKER)
+    if marker != -1:
+        text = text[:marker].strip()
+    return text or None
 
 
 def sized_asset_url(url: str) -> str:
