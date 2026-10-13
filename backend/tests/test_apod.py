@@ -127,8 +127,16 @@ SCIENCE_ARTICLE = (
 )
 
 
-def science_page_html(image_url: str = SCIENCE_IMAGE_ORIGINAL) -> str:
-    """A trimmed copy of the schema.org block a real APOD page carries."""
+PAGE_EXPLANATION = (
+    "Two galaxies are pulling at each other in this wide field. "
+    "The faint tail on the left is gas torn loose long ago."
+)
+
+
+def science_page_html(
+    image_url: str = SCIENCE_IMAGE_ORIGINAL, *, explanation: str | None = PAGE_EXPLANATION
+) -> str:
+    """A trimmed copy of what a real APOD page carries: the schema.org block and the text."""
     article = {
         "@context": "https://schema.org",
         "@type": "NewsArticle",
@@ -138,9 +146,17 @@ def science_page_html(image_url: str = SCIENCE_IMAGE_ORIGINAL) -> str:
         "datePublished": "2026-10-12T04:05:00Z",
         "image": {"@type": "ImageObject", "url": image_url},
     }
+    paragraph = ""
+    if explanation is not None:
+        paragraph = (
+            '<p class="p-md margin-0 media-detail-hero__description">'
+            f"<strong>Explanation:</strong> {explanation}<br><br>"
+            "<strong>Tomorrow&#8217;s picture:</strong> something else</p>"
+        ).replace("&#8217;", "'")
     return (
         '<!doctype html><html><head><script type="application/ld+json">'
-        f"{json.dumps(article)}</script></head><body></body></html>"
+        f"{json.dumps(article)}</script></head>"
+        f'<body><div class="media-detail-hero__content-row">{paragraph}</div></body></html>'
     )
 
 
@@ -155,6 +171,8 @@ def test_a_logo_from_the_api_is_replaced_from_nasas_page(ctx, upstream):
     assert entry["title"] == "Jupiter and the Moons"
     assert entry["page_url"] == SCIENCE_ARTICLE
     assert entry["date"] == "2026-10-08"  # the date still comes from the JSON API
+    # The JSON API repeats one explanation on every date, so the page's text replaces it.
+    assert entry["explanation"] == PAGE_EXPLANATION
 
 
 def test_the_background_uses_the_page_picture_instead_of_the_fallback(ctx, upstream):
@@ -203,3 +221,25 @@ def test_asset_urls_are_sized_for_a_background():
     assert apod.sized_asset_url(reasonable) == reasonable
 
     assert apod.sized_asset_url("https://example.test/x.jpg") == "https://example.test/x.jpg"
+
+
+def test_the_page_explanation_keeps_links_and_drops_the_tomorrow_line():
+    html = (
+        '<p class="p-md margin-0 media-detail-hero__description">'
+        "<strong>Explanation:</strong> The star "
+        '<a href="https://x.test/a">Betelgeuse</a>&#8217;s dimming was dust.'
+        "<br><br><strong>Tomorrow&#8217;s picture:</strong> a comet</p>"
+    ).replace("&#8217;", "'")
+    assert apod._explanation_from_page(html) == "The star Betelgeuse's dimming was dust."
+
+
+def test_a_page_without_the_description_block_keeps_the_api_text(ctx, upstream):
+    upstream.get(APOD).mock(side_effect=by_date({}, default=logo("2026-10-08")))
+    upstream.get(SCIENCE_PAGE).mock(
+        return_value=httpx.Response(200, text=science_page_html(explanation=None))
+    )
+
+    entry = apod.get_apod(ctx, None, TODAY).value
+
+    assert entry["is_placeholder"] is False  # the picture still lands
+    assert entry["explanation"] == logo("2026-10-08")["explanation"]  # text falls back
