@@ -39,6 +39,21 @@ class Settings(BaseSettings):
         validation_alias="HISTORY_PATH",
         description="History JSON file. Relative paths resolve from backend/.",
     )
+    database_url: str | None = Field(
+        default=None,
+        validation_alias="DATABASE_URL",
+        description=(
+            "PostgreSQL connection string. When set, history is stored there instead of "
+            "the JSON file. Keep the sslmode parameter for Aiven."
+        ),
+    )
+    db_pool_max_size: int = Field(
+        default=4,
+        ge=1,
+        le=20,
+        validation_alias="DB_POOL_MAX_SIZE",
+        description="Most pooled database connections. Ignored when DATABASE_URL is unset.",
+    )
     cors_origins: str = Field(
         default="",
         validation_alias="CORS_ORIGINS",
@@ -60,6 +75,20 @@ class Settings(BaseSettings):
             return value.strip().strip('"').strip("'")
         return DEMO_KEY
 
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def _clean_database_url(cls, value: object) -> object:
+        if not isinstance(value, str):
+            return value
+        cleaned = value.strip().strip('"').strip("'")
+        if not cleaned:
+            return None
+        # Aiven's console shows postgres://; libpq prefers postgresql://. Both parse,
+        # but normalising keeps the errors and logs consistent.
+        if cleaned.startswith("postgres://"):
+            cleaned = "postgresql://" + cleaned.removeprefix("postgres://")
+        return cleaned
+
     @field_validator("history_path", mode="after")
     @classmethod
     def _resolve_history_path(cls, value: Path) -> Path:
@@ -68,6 +97,11 @@ class Settings(BaseSettings):
     @property
     def cors_origin_list(self) -> list[str]:
         return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
+
+    @property
+    def history_backend(self) -> str:
+        """Which HistoryRepository create_app() builds: "postgres" or "json"."""
+        return "postgres" if self.database_url else "json"
 
 
 @lru_cache

@@ -21,6 +21,8 @@ class HistoryRepository(Protocol):
 
     def list_for_client(self, client_id: str) -> list[dict[str, Any]]: ...
 
+    def close(self) -> None: ...
+
 
 class JsonHistoryRepository:
     """All records in one JSON array. Writes are atomic: temp file, fsync, then os.replace."""
@@ -28,6 +30,9 @@ class JsonHistoryRepository:
     def __init__(self, path: Path) -> None:
         self.path = path
         self._lock = threading.RLock()
+
+    def close(self) -> None:
+        """Nothing to release. The file handle is opened and closed per write."""
 
     def add(self, record: dict[str, Any]) -> None:
         with self._lock:
