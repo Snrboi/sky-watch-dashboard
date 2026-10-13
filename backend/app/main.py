@@ -52,7 +52,7 @@ def build_history_repository(settings: Settings) -> HistoryRepository:
     The database import is inside this function, so a JSON-only run never needs the driver
     at import time. Nothing connects here either: the pool opens on the first history
     request, so a database that is down does not stop the app from starting.
-    """http://127.0.0.1:8000
+    """
     if not settings.database_url:
         return JsonHistoryRepository(settings.history_path)
 
