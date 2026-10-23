@@ -1,16 +1,12 @@
 import { MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Kbd, KbdGroup } from "@/components/ui/kbd";
 import { useWeather } from "@/features/weather/use-weather";
 import { useLocation } from "@/features/location/location-context";
 import { useNow } from "@/hooks/use-now";
 import { formatRelative } from "@/lib/format";
 
-const SHORTCUT_MODIFIER =
-  typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.userAgent) ? "⌘" : "Ctrl";
-
-/** Current city (opens the picker), the last-updated time, and the search shortcut. */
+/** The current city picker and the latest update time. */
 export function TopBar() {
   const { place, setPickerOpen } = useLocation();
   const weather = useWeather(place);
@@ -23,27 +19,18 @@ export function TopBar() {
         <Button
           variant="ghost"
           size="sm"
-          className="h-8 max-w-[60vw] gap-2 rounded-full border border-white/10 bg-white/5 px-3"
+          className="h-8 min-w-0 max-w-[60vw] gap-2 rounded-full border border-white/10 bg-white/5 px-3"
           onClick={() => setPickerOpen(true)}
           aria-label={`Change city. Current city: ${place.name}`}
         >
           <MapPin className="size-3.5 shrink-0 text-sky" aria-hidden="true" />
           <span className="truncate">{place.name}</span>
         </Button>
-        <div className="ml-auto flex items-center gap-4">
-          {updatedAt ? (
-            <p className="hidden text-xs text-muted-foreground sm:block">
-              Updated {formatRelative(updatedAt, now)}
-            </p>
-          ) : null}
-          <p className="hidden items-center gap-1.5 text-xs text-muted-foreground md:flex">
-            Search
-            <KbdGroup>
-              <Kbd>{SHORTCUT_MODIFIER}</Kbd>
-              <Kbd>K</Kbd>
-            </KbdGroup>
+        {updatedAt ? (
+          <p className="ml-auto truncate text-right text-xs text-muted-foreground">
+            Updated {formatRelative(updatedAt, now)}
           </p>
-        </div>
+        ) : null}
       </div>
     </header>
   );

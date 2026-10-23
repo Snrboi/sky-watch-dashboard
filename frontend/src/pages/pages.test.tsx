@@ -1,4 +1,4 @@
-import { act, fireEvent, screen, waitFor, within } from "@testing-library/react";
+import { fireEvent, screen, waitFor, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
 import { renderApp } from "@/test/render";
@@ -6,21 +6,27 @@ import { apiError, json, stubFetch } from "@/test/fetch-mock";
 import {
   airQualitySample,
   apodSample,
+  astrosSample,
   backgroundSample,
   emptyHistory,
+  forecastSample,
   geocodeSample,
   historySample,
   issSample,
   passesSample,
   statsSample,
+  trackSample,
   weatherSample,
 } from "@/test/fixtures";
 
 const SOURCES = {
   "/api/weather": () => json(weatherSample),
+  "/api/weather/forecast": () => json(forecastSample),
   "/api/air-quality": () => json(airQualitySample),
   "/api/iss/position": () => json(issSample),
   "/api/iss/passes": () => json(passesSample),
+  "/api/iss/track": () => json(trackSample),
+  "/api/iss/astros": () => json(astrosSample),
   "/api/apod": () => json(apodSample),
   "/api/apod/background": () => json(backgroundSample),
   "/api/history": () => json({ recorded: true, entry: historySample.entries[0], throttled_until: null }),
@@ -34,7 +40,15 @@ describe("Overview page", () => {
     expect(await screen.findByRole("heading", { level: 1, name: "Sky over Port Harcourt" })).toBeInTheDocument();
     expect(await screen.findByText("Scattered clouds")).toBeInTheDocument();
     expect(await screen.findByText("Moderate")).toBeInTheDocument();
+    // Sunrise and sunset sit at the bottom of the weather card.
+    expect(screen.getByText("Sunrise")).toBeInTheDocument();
+    expect(screen.getByText("Sunset")).toBeInTheDocument();
     expect(await screen.findByText("Roughly over the Pacific Ocean")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Hourly Forecast" })).toBeInTheDocument();
+    const hourlyForecast = screen.getByRole("list", { name: "Hourly forecast" });
+    expect(within(hourlyForecast).getAllByRole("listitem")).toHaveLength(24);
+    expect(within(hourlyForecast).queryByText(/AM|PM/)).not.toBeInTheDocument();
+    expect(screen.queryByText("Three-hour steps")).not.toBeInTheDocument();
     // The Overview shows the next pass only (17.5 degrees, rated Low).
     expect(await screen.findByText("Low")).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Photo of the day" })).toBeInTheDocument();
@@ -101,9 +115,13 @@ describe("ISS page", () => {
   it("shows the map summary and the upcoming passes", async () => {
     stubFetch(SOURCES);
     renderApp({ route: "/iss" });
-    expect(await screen.findByRole("heading", { level: 1, name: "ISS tracker" })).toBeInTheDocument();
-    expect(await screen.findByText(/The ISS is roughly over the Pacific Ocean/)).toBeInTheDocument();
-    const passButtons = await screen.findAllByRole("button", { expanded: false });
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "ISS tracker" }, { timeout: 5000 }),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(/The ISS is roughly over the Pacific Ocean/, {}, { timeout: 5000 }),
+    ).toBeInTheDocument();
+    const passButtons = await screen.findAllByRole("button", { expanded: false }, { timeout: 5000 });
     expect(passButtons.length).toBeGreaterThan(0);
   });
 });
@@ -112,10 +130,12 @@ describe("Stats page", () => {
   it("shows the headline numbers and the trend", async () => {
     stubFetch({ "/api/history/stats": () => json(statsSample) });
     renderApp({ route: "/stats" });
-    expect(await screen.findByText("Total lookups")).toBeInTheDocument();
+    expect(await screen.findByText("Total lookups", {}, { timeout: 5000 })).toBeInTheDocument();
     expect(screen.getByText("Average temperature")).toBeInTheDocument();
     expect(screen.getByText("Lookups with an upcoming pass")).toBeInTheDocument();
-    expect(screen.getByText(/Trend across 2 days/)).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name: "Trend" })).toBeInTheDocument();
+    expect(screen.queryByText("Lookups per day")).not.toBeInTheDocument();
+    expect(screen.queryByText(/Trend across/)).not.toBeInTheDocument();
   });
 });
 
@@ -142,18 +162,14 @@ describe("Routing and shell", () => {
     expect(await screen.findByRole("heading", { name: "This page drifted out of orbit." })).toBeInTheDocument();
   });
 
-  it("opens the command palette with Ctrl+K and navigates to a page", async () => {
-    stubFetch({ ...SOURCES, "/api/history/stats": () => json(statsSample) });
+  it("does not show a search shortcut or open a Ctrl+K palette", async () => {
+    stubFetch(SOURCES);
     renderApp({ route: "/" });
     await screen.findByRole("heading", { level: 1, name: "Sky over Port Harcourt" });
 
-    act(() => {
-      fireEvent.keyDown(window, { key: "k", ctrlKey: true });
-    });
-    const palette = await screen.findByRole("dialog", { name: "Command palette" });
-    fireEvent.click(within(palette).getByText("Statistics"));
-
-    expect(await screen.findByRole("heading", { level: 1, name: "Statistics" })).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: "k", ctrlKey: true });
+    expect(screen.queryByRole("dialog", { name: "Command palette" })).not.toBeInTheDocument();
+    expect(screen.queryByText(/Ctrl.*K/)).not.toBeInTheDocument();
   });
 
   it("searches for a city and applies the choice", async () => {

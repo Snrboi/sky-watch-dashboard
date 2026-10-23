@@ -1,6 +1,19 @@
 /** Sample API payloads for tests. Shapes follow the generated schema. */
 
-import type { AirQuality, ApodEntry, Background, IssPosition, LookupList, PassList, Stats, Weather } from "@/types";
+import type {
+  AirQuality,
+  AqiHistory,
+  ApodEntry,
+  Astros,
+  Background,
+  Forecast,
+  IssPosition,
+  IssTrack,
+  LookupList,
+  PassList,
+  Stats,
+  Weather,
+} from "@/types";
 
 const FETCHED = "2026-10-08T11:00:00Z";
 
@@ -14,8 +27,19 @@ export const weatherSample: Weather = {
   condition: "Clouds",
   description: "Scattered clouds",
   icon: "clouds",
+  sunrise_at: "2026-10-08T05:52:00Z",
+  sunset_at: "2026-10-08T18:38:00Z",
+  advice: null,
   fetched_at: FETCHED,
   stale: false,
+};
+
+export const rainyWeatherSample: Weather = {
+  ...weatherSample,
+  condition: "Rain",
+  description: "Light rain",
+  icon: "rain",
+  advice: "Take an umbrella.",
 };
 
 export const airQualitySample: AirQuality = {
@@ -25,6 +49,7 @@ export const airQualitySample: AirQuality = {
   label: "Moderate",
   color: "moderate",
   advice: "Sensitive groups should limit prolonged outdoor exertion.",
+  who_over: ["PM2.5"],
   pollutants: { pm2_5: 18.6, pm10: 31.2, o3: 48.1, no2: 12.7, so2: 3.1, co: 402.5, nh3: 1.2, no: 0.5 },
   fetched_at: FETCHED,
   stale: false,
@@ -36,6 +61,8 @@ export const issSample: IssPosition = {
   altitude_km: 423.6,
   velocity_kmh: 27566.6,
   sunlit: true,
+  solar_lat: -5.98,
+  solar_lon: 8.29,
   observed_at: FETCHED,
   region: "Roughly over the Pacific Ocean",
   distance_km: 1934,
@@ -146,12 +173,15 @@ export const statsSample: Stats = {
   unique_cities: 2,
   most_searched_city: { city: "Port Harcourt", lookups: 1 },
   average_temp_c: 29.3,
+  coldest: { temp_c: 28.4, date: "2026-10-08" },
+  warmest: { temp_c: 30.1, date: "2026-10-07" },
   best_aqi: { aqi: 1, label: "Good", date: "2026-10-07" },
   worst_aqi: { aqi: 3, label: "Moderate", date: "2026-10-08" },
   lookups_with_pass: 1,
+  peak_hour_utc: 10,
   trend: [
-    { date: "2026-10-07", avg_temp_c: 30.1, avg_aqi: 1 },
-    { date: "2026-10-08", avg_temp_c: 28.4, avg_aqi: 3 },
+    { date: "2026-10-07", lookups: 1, avg_temp_c: 30.1, avg_aqi: 1 },
+    { date: "2026-10-08", lookups: 1, avg_temp_c: 28.4, avg_aqi: 3 },
   ],
 };
 
@@ -160,6 +190,54 @@ export const geocodeSample = {
   results: [
     { name: "Lagos", state: "Lagos", country: "NG", lat: 6.5244, lon: 3.3792 },
     { name: "Lagos", state: "Algarve", country: "PT", lat: 37.1, lon: -8.67 },
+  ],
+  fetched_at: FETCHED,
+  stale: false,
+};
+
+export const forecastSample: Forecast = {
+  lat: 4.8156,
+  lon: 7.0498,
+  points: Array.from({ length: 24 }, (_, hour) => ({
+    at: new Date(Date.parse("2026-10-08T15:00:00Z") + hour * 60 * 60 * 1000).toISOString(),
+    temp_c: Math.round((27.9 + Math.sin(hour / 3) * 1.5) * 10) / 10,
+    description: hour < 6 ? "Few clouds" : hour < 12 ? "Clear sky" : "Light rain",
+    icon: hour < 6 ? "clouds" : hour < 12 ? "clear" : "rain",
+  })),
+  fetched_at: FETCHED,
+  stale: false,
+};
+
+export const aqiHistorySample: AqiHistory = {
+  lat: 4.8156,
+  lon: 7.0498,
+  points: [
+    { at: "2026-10-08T09:00:00Z", aqi: 2 },
+    { at: "2026-10-08T10:00:00Z", aqi: 3 },
+    { at: "2026-10-08T11:00:00Z", aqi: 2 },
+  ],
+  fetched_at: FETCHED,
+  stale: false,
+};
+
+export const trackSample: IssTrack = {
+  points: [
+    { lat: 7.6, lon: -81.2, at: "2026-10-08T11:57:00Z" },
+    { lat: 8.0, lon: -80.3, at: "2026-10-08T11:58:00Z" },
+    { lat: 8.39, lon: -79.54, at: "2026-10-08T11:59:00Z" },
+    { lat: 8.8, lon: -78.6, at: "2026-10-08T12:00:00Z" },
+    { lat: 9.2, lon: -77.7, at: "2026-10-08T12:01:00Z" },
+  ],
+  fetched_at: FETCHED,
+  stale: false,
+};
+
+export const astrosSample: Astros = {
+  count: 3,
+  people: [
+    { name: "One Person", craft: "ISS" },
+    { name: "Two Person", craft: "ISS" },
+    { name: "Three Person", craft: "Tiangong" },
   ],
   fetched_at: FETCHED,
   stale: false,

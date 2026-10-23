@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowUpRight, ImageOff, Video } from "lucide-react";
+import { ArrowUpRight, Download, ImageOff, Video } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ export function ApodDetail({ entry }: { entry: ApodEntry }) {
   const [expanded, setExpanded] = useState(false);
   const isVideo = entry.media_type === "video";
   const showImage = !isVideo && !entry.is_placeholder && Boolean(entry.url);
+  const fullSize = entry.hdurl ?? entry.url;
 
   return (
     <div className="flex flex-col gap-6">
@@ -53,12 +54,22 @@ export function ApodDetail({ entry }: { entry: ApodEntry }) {
           <p className="text-muted-foreground">
             Credit: <span className="text-foreground">{entry.copyright ?? "NASA APOD"}</span>
           </p>
-          <Button variant="outline" size="sm" asChild>
-            <a href={entry.page_url} target="_blank" rel="noreferrer">
-              View on NASA
-              <ArrowUpRight aria-hidden="true" />
-            </a>
-          </Button>
+          <div className="flex items-center gap-2">
+            {fullSize ? (
+              <Button variant="outline" size="sm" asChild>
+                <a href={fullSize} target="_blank" rel="noreferrer">
+                  <Download aria-hidden="true" />
+                  Full size
+                </a>
+              </Button>
+            ) : null}
+            <Button variant="outline" size="sm" asChild>
+              <a href={entry.page_url} target="_blank" rel="noreferrer">
+                View on NASA
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            </Button>
+          </div>
         </Reveal>
       </div>
     </div>

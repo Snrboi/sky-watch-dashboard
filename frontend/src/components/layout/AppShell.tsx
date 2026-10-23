@@ -7,7 +7,6 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { Footer } from "@/components/layout/Footer";
 import { SideNav } from "@/components/layout/SideNav";
 import { TopBar } from "@/components/layout/TopBar";
-import { CommandPalette } from "@/components/command/CommandPalette";
 import { ApodBackground } from "@/features/background/ApodBackground";
 import { PlacePicker } from "@/features/location/PlacePicker";
 import { EASE_OUT, MOTION, motionDuration } from "@/lib/motion";
@@ -49,7 +48,6 @@ export function AppShell() {
       </div>
       <BottomNav />
       <PlacePicker />
-      <CommandPalette />
     </div>
   );
 }

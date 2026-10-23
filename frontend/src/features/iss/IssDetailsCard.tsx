@@ -30,12 +30,13 @@ export function IssDetailsCard({ place, className }: IssDetailsCardProps) {
         skeleton={<SkeletonLines rows={5} />}
       >
         {(iss) => (
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-3">
             {query.isError || iss.stale ? <StaleNotice fetchedAt={iss.fetched_at} /> : null}
-            <dl className="grid grid-cols-2 gap-x-6 gap-y-5">
-              <Metric label="Coordinates" value={formatCoordinates(iss.lat, iss.lon)} />
-              <Metric label="Light" value={sunlitLabel(iss.sunlit)} />
+            <dl className="grid grid-cols-2 gap-x-3 gap-y-4">
+              <Metric dense label="Coordinates" value={formatCoordinates(iss.lat, iss.lon)} />
+              <Metric dense label="Light" value={sunlitLabel(iss.sunlit)} />
               <Metric
+                dense
                 label="Altitude"
                 value={
                   iss.altitude_km === null ? (
@@ -48,6 +49,7 @@ export function IssDetailsCard({ place, className }: IssDetailsCardProps) {
                 }
               />
               <Metric
+                dense
                 label="Speed"
                 value={
                   iss.velocity_kmh === null ? (
@@ -60,6 +62,7 @@ export function IssDetailsCard({ place, className }: IssDetailsCardProps) {
                 }
               />
               <Metric
+                dense
                 label={`Distance from ${place.name}`}
                 value={
                   iss.distance_km === null ? (
@@ -71,9 +74,9 @@ export function IssDetailsCard({ place, className }: IssDetailsCardProps) {
                   )
                 }
               />
-              <Metric label="Observed" value={formatTime(iss.observed_at)} />
+              <Metric dense label="Observed" value={formatTime(iss.observed_at)} />
             </dl>
-            <p className="text-xs text-pretty text-muted-foreground">
+            <p className="text-[10px] leading-relaxed text-pretty text-muted-foreground">
               Source: {iss.source}. Distance is measured across the ground, from the point directly
               below the station to {place.name}.
             </p>

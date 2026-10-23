@@ -63,6 +63,18 @@ export function formatTime(iso: string | null | undefined): string {
   return new Intl.DateTimeFormat("en", { hour: "numeric", minute: "2-digit" }).format(new Date(iso));
 }
 
+/** A local time in 24-hour HH:mm format, for the forecast timeline. */
+export function formatTime24(iso: string | null | undefined): string {
+  if (!iso) {
+    return EM_DASH;
+  }
+  return new Intl.DateTimeFormat("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).format(new Date(iso));
+}
+
 /** A date-only string such as "2026-10-07", without a timezone shift. */
 export function formatDay(day: string | null | undefined): string {
   if (!day) {

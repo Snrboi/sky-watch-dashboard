@@ -31,6 +31,23 @@ def search_places(ctx: "AppContext", query: str, limit: int) -> Cached[list[dict
     return ctx.cache.get_or_fetch(f"geocode:{limit}:{cleaned.casefold()}", TTL_SECONDS, fetch)
 
 
+def reverse_geocode(ctx: "AppContext", lat: float, lon: float) -> Cached[dict[str, Any] | None]:
+    """The nearest named place for coordinates. None when the API has no name."""
+    key = require_key(ctx, SOURCE)
+    lat, lon = round_coord(lat), round_coord(lon)
+
+    def fetch() -> dict[str, Any] | None:
+        data = ctx.http.get_json(
+            SOURCE,
+            f"{OWM_BASE_URL}/geo/1.0/reverse",
+            {"lat": lat, "lon": lon, "limit": 1, "appid": key},
+        )
+        places = parse_places(data)
+        return places[0] if places else None
+
+    return ctx.cache.get_or_fetch(f"geocode-reverse:{lat}:{lon}", TTL_SECONDS, fetch)
+
+
 def parse_places(data: Any) -> list[dict[str, Any]]:
     if not isinstance(data, list):
         raise UpstreamUnavailableError("geocoding response was not a list.", source=SOURCE)

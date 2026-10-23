@@ -161,6 +161,12 @@ class PostgresHistoryRepository:
         with self._connect() as connection:
             connection.execute(INSERT_SQL, params)
 
+    def delete_for_client(self, client_id: str) -> int:
+        """Drop one browser's records. Returns how many rows were removed."""
+        with self._connect() as connection:
+            cursor = connection.execute("DELETE FROM lookups WHERE client_id = %s", (client_id,))
+        return int(cursor.rowcount or 0)
+
     def list_for_client(self, client_id: str) -> list[dict[str, Any]]:
         """Records for one browser, oldest first. Same shape as the JSON version."""
         if not client_id:

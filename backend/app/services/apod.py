@@ -33,6 +33,7 @@ ASSET_WIDTH = 1600
 MAX_ASSET_WIDTH = 2400
 EARLIEST_DATE = date(1995, 6, 16)
 TODAY_TTL_SECONDS = 3600
+RANDOM_TTL_SECONDS = 300
 PAST_TTL_SECONDS = 86400
 IMAGE_SIZE_TTL_SECONDS = 86400
 BACKGROUND_TTL_SECONDS = 3600
@@ -76,25 +77,54 @@ def get_apod(ctx: "AppContext", day: str | None, today: date) -> Cached[dict[str
         if not isinstance(data, dict):
             raise UpstreamUnavailableError("NASA APOD sent an unexpected response.", source=SOURCE)
         entry_date = str(data.get("date") or day or today.isoformat())
-        title = str(data.get("title") or "Untitled")
-        url = str(data["url"]) if data.get("url") else None
-        hdurl = str(data["hdurl"]) if data.get("hdurl") else None
-        entry = {
-            "date": entry_date,
-            "title": title,
-            "explanation": str(data.get("explanation") or ""),
-            "media_type": str(data.get("media_type") or "image"),
-            "url": url,
-            "hdurl": hdurl,
-            "copyright": _clean_credit(data.get("copyright")),
-            "page_url": page_url(entry_date),
-            "is_placeholder": is_placeholder(url, title),
-        }
+        entry = _entry_from_api(data, today)
+        entry["date"] = entry_date
         if entry["is_placeholder"]:
             _use_nasa_page(ctx, entry)
         return entry
 
     return ctx.cache.get_or_fetch(f"apod:{day or 'latest'}", ttl, fetch)
+
+
+def get_random(ctx: "AppContext", today: date) -> Cached[dict[str, Any]]:
+    """One photo chosen by NASA, via the count parameter.
+
+    The random entry is rebuilt every few minutes, so repeated requests can
+    return different pictures without hammering the API.
+    """
+
+    def fetch() -> dict[str, Any]:
+        data = ctx.http.get_json(
+            SOURCE, APOD_URL, {"api_key": ctx.settings.nasa_api_key, "count": "1"}
+        )
+        items = data if isinstance(data, list) else []
+        if not items or not isinstance(items[0], dict):
+            raise UpstreamUnavailableError("NASA APOD sent an unexpected response.", source=SOURCE)
+        entry = _entry_from_api(items[0], today)
+        if entry["is_placeholder"]:
+            _use_nasa_page(ctx, entry)
+        return entry
+
+    return ctx.cache.get_or_fetch("apod:random", RANDOM_TTL_SECONDS, fetch)
+
+
+def _entry_from_api(data: dict[str, Any], today: date) -> dict[str, Any]:
+    """The shared shape of one APOD entry, straight from the JSON API."""
+    entry_date = str(data.get("date") or today.isoformat())
+    title = str(data.get("title") or "Untitled")
+    url = str(data["url"]) if data.get("url") else None
+    hdurl = str(data["hdurl"]) if data.get("hdurl") else None
+    return {
+        "date": entry_date,
+        "title": title,
+        "explanation": str(data.get("explanation") or ""),
+        "media_type": str(data.get("media_type") or "image"),
+        "url": url,
+        "hdurl": hdurl,
+        "copyright": _clean_credit(data.get("copyright")),
+        "page_url": page_url(entry_date),
+        "is_placeholder": is_placeholder(url, title),
+    }
 
 
 def get_background(ctx: "AppContext", today: date) -> Cached[dict[str, Any]]:

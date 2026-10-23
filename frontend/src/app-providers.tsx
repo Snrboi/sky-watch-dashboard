@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LocationProvider } from "@/features/location/LocationProvider";
+import { RefreshProvider } from "@/features/refresh/RefreshProvider";
 
 interface AppProvidersProps {
   children: ReactNode;
@@ -18,7 +19,9 @@ export function AppProviders({ children, queryClient }: AppProvidersProps) {
       <MotionConfig reducedMotion="user">
         <BrowserRouter>
           <LocationProvider>
-            <TooltipProvider delayDuration={300}>{children}</TooltipProvider>
+            <RefreshProvider>
+              <TooltipProvider delayDuration={300}>{children}</TooltipProvider>
+            </RefreshProvider>
           </LocationProvider>
         </BrowserRouter>
       </MotionConfig>

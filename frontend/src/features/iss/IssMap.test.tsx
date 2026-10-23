@@ -28,6 +28,28 @@ describe("IssMap marker", () => {
   it("draws the place marker without an ISS position", () => {
     const { container } = render(<IssMap position={undefined} place={DEFAULT_PLACE} />);
     expect(container.querySelector("circle.fill-sky")).toBeNull();
-    expect(container.querySelector("circle.fill-foreground")).not.toBeNull();
+    expect(container.querySelector('circle[class*="fill-[#ff3b47]"]')).not.toBeNull();
+  });
+
+  it("shades the night half from the sun's coordinates", () => {
+    const { container } = render(
+      <MotionConfig reducedMotion="never">
+        <IssMap position={issSample} place={DEFAULT_PLACE} />
+      </MotionConfig>,
+    );
+    const night = container.querySelector("path.fill-black\\/40");
+    expect(night).not.toBeNull();
+    expect(night!.getAttribute("d")).toMatch(/^M[\d., LMZ]+ Z$/);
+  });
+
+  it("shows the ISS and user place without drawing a ground track", () => {
+    const { container } = render(
+      <MotionConfig reducedMotion="never">
+        <IssMap position={issSample} place={DEFAULT_PLACE} />
+      </MotionConfig>,
+    );
+    expect(container.querySelector("circle.fill-sky")).not.toBeNull();
+    expect(container.querySelector('circle[class*="fill-[#ff3b47]"]')).not.toBeNull();
+    expect(container.querySelector("path[stroke-dasharray]")).toBeNull();
   });
 });

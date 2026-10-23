@@ -3,753 +3,1506 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
-  "/api/air-quality": {
-    /** Air quality at a place */
-    get: operations["air_quality_api_air_quality_get"];
-  };
-  "/api/apod": {
-    /** NASA picture of the day */
-    get: operations["apod_entry_api_apod_get"];
-  };
-  "/api/apod/background": {
-    /** Background image for every page */
-    get: operations["apod_background_api_apod_background_get"];
-  };
-  "/api/geocode": {
-    /** Search for a city */
-    get: operations["geocode_api_geocode_get"];
-  };
-  "/api/health": {
-    /** Service status */
-    get: operations["health_api_health_get"];
-  };
-  "/api/history": {
-    /** Past lookups, newest first */
-    get: operations["list_history_api_history_get"];
-    /** Record a lookup for a place */
-    post: operations["record_lookup_api_history_post"];
-  };
-  "/api/history/stats": {
-    /** Statistics over past lookups */
-    get: operations["history_stats_api_history_stats_get"];
-  };
-  "/api/iss/passes": {
-    /** Next visible ISS passes */
-    get: operations["iss_passes_api_iss_passes_get"];
-  };
-  "/api/iss/position": {
-    /** Live ISS position */
-    get: operations["iss_position_api_iss_position_get"];
-  };
-  "/api/weather": {
-    /** Current weather at a place */
-    get: operations["current_weather_api_weather_get"];
-  };
+    "/api/air-quality": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Air quality at a place */
+        get: operations["air_quality_api_air_quality_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/air-quality/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Hourly air quality for the last day */
+        get: operations["air_quality_history_api_air_quality_history_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/apod": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** NASA picture of the day */
+        get: operations["apod_entry_api_apod_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/apod/background": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Background image for every page */
+        get: operations["apod_background_api_apod_background_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/apod/random": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** A random NASA photo */
+        get: operations["apod_random_api_apod_random_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/geocode": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search for a city */
+        get: operations["geocode_api_geocode_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/geocode/reverse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The nearest named place for coordinates */
+        get: operations["reverse_geocode_api_geocode_reverse_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Service status */
+        get: operations["health_api_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/history": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Past lookups, newest first */
+        get: operations["list_history_api_history_get"];
+        put?: never;
+        /** Record a lookup for a place */
+        post: operations["record_lookup_api_history_post"];
+        /** Delete this browser's lookups */
+        delete: operations["delete_history_api_history_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/history.csv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** This browser's lookups as CSV, for a spreadsheet */
+        get: operations["history_csv_api_history_csv_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/history/stats": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Statistics over past lookups */
+        get: operations["history_stats_api_history_stats_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/iss/astros": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** People in space right now */
+        get: operations["astros_api_iss_astros_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/iss/passes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Next visible ISS passes */
+        get: operations["iss_passes_api_iss_passes_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/iss/position": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Live ISS position */
+        get: operations["iss_position_api_iss_position_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/iss/track": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The ISS ground track */
+        get: operations["iss_track_api_iss_track_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/weather": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Current weather at a place */
+        get: operations["current_weather_api_weather_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/weather/forecast": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** The next few hours */
+        get: operations["forecast_api_weather_forecast_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
-
 export type webhooks = Record<string, never>;
-
 export interface components {
-  schemas: {
-    /** AirQuality */
-    AirQuality: {
-      /** Advice */
-      advice: string | null;
-      /** Aqi */
-      aqi: number | null;
-      /**
-       * Color
-       * @description Color token: good, fair, moderate, poor, or very-poor.
-       */
-      color: string | null;
-      /**
-       * Fetched At
-       * Format: date-time
-       * @description When the upstream data was fetched (UTC).
-       */
-      fetched_at: string;
-      /** Label */
-      label: string | null;
-      /** Lat */
-      lat: number;
-      /** Lon */
-      lon: number;
-      /** @description Concentrations in micrograms per cubic metre. */
-      pollutants: components["schemas"]["Pollutants"];
-      /**
-       * Stale
-       * @description True when an older value was served after an upstream failure.
-       */
-      stale: boolean;
+    schemas: {
+        /** AirQuality */
+        AirQuality: {
+            /** Advice */
+            advice: string | null;
+            /** Aqi */
+            aqi: number | null;
+            /**
+             * Color
+             * @description Color token: good, fair, moderate, poor, or very-poor.
+             */
+            color: string | null;
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Label */
+            label: string | null;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** @description Concentrations in micrograms per cubic metre. */
+            pollutants: components["schemas"]["Pollutants"];
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+            /**
+             * Who Over
+             * @description Pollutants above the WHO 24-hour guideline, for example ['pm2_5'].
+             */
+            who_over?: string[];
+        };
+        /** ApodEntry */
+        ApodEntry: {
+            /** Copyright */
+            copyright: string | null;
+            /** Date */
+            date: string;
+            /** Explanation */
+            explanation: string;
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Hdurl */
+            hdurl: string | null;
+            /**
+             * Is Placeholder
+             * @description True when NASA returned its logo instead of a picture.
+             */
+            is_placeholder: boolean;
+            /** Media Type */
+            media_type: string;
+            /** Page Url */
+            page_url: string;
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+            /** Title */
+            title: string;
+            /** Url */
+            url: string | null;
+        };
+        /** AqiHistory */
+        AqiHistory: {
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** Points */
+            points: components["schemas"]["AqiHistoryPoint"][];
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+        };
+        /** AqiHistoryPoint */
+        AqiHistoryPoint: {
+            /** Aqi */
+            aqi: number | null;
+            /**
+             * At
+             * Format: date-time
+             */
+            at: string;
+        };
+        /** AqiRecord */
+        AqiRecord: {
+            /** Aqi */
+            aqi: number;
+            /** Date */
+            date: string;
+            /** Label */
+            label: string;
+        };
+        /** AstroPerson */
+        AstroPerson: {
+            /** Craft */
+            craft: string;
+            /** Name */
+            name: string;
+        };
+        /** Astros */
+        Astros: {
+            /** Count */
+            count: number;
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** People */
+            people: components["schemas"]["AstroPerson"][];
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+        };
+        /** Background */
+        Background: {
+            /** Credit */
+            credit: string;
+            /** Date */
+            date: string;
+            /** Fallback Reason */
+            fallback_reason: string | null;
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /**
+             * Hd Url
+             * @description Larger image for screens 1600 px and wider.
+             */
+            hd_url: string | null;
+            /** Image Url */
+            image_url: string;
+            /** Is Fallback */
+            is_fallback: boolean;
+            /** Page Url */
+            page_url: string | null;
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+            /** Title */
+            title: string;
+        };
+        /** CityCount */
+        CityCount: {
+            /** City */
+            city: string;
+            /** Lookups */
+            lookups: number;
+        };
+        /** Forecast */
+        Forecast: {
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** Points */
+            points: components["schemas"]["ForecastPoint"][];
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+        };
+        /** ForecastPoint */
+        ForecastPoint: {
+            /**
+             * At
+             * Format: date-time
+             */
+            at: string;
+            /** Description */
+            description: string;
+            /**
+             * Icon
+             * @description Icon token such as clear, clouds, rain, fog, or unknown.
+             */
+            icon: string;
+            /** Temp C */
+            temp_c: number;
+        };
+        /** GeocodeResponse */
+        GeocodeResponse: {
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Query */
+            query: string;
+            /** Results */
+            results: components["schemas"]["Place"][];
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /** Health */
+        Health: {
+            /**
+             * History Backend
+             * @description Where lookup history is stored.
+             * @enum {string}
+             */
+            history_backend: "json" | "postgres";
+            /**
+             * Status
+             * @constant
+             */
+            status: "ok";
+            /**
+             * Time
+             * Format: date-time
+             */
+            time: string;
+            /** Version */
+            version: string;
+        };
+        /** IssPass */
+        IssPass: {
+            /** Culmination At */
+            culmination_at: string | null;
+            /** Max Elevation Deg */
+            max_elevation_deg: number;
+            /**
+             * Rating
+             * @enum {string}
+             */
+            rating: "excellent" | "good" | "low";
+            /** Rating Label */
+            rating_label: string;
+            /**
+             * Rise At
+             * Format: date-time
+             */
+            rise_at: string;
+            /** Rise Azimuth Deg */
+            rise_azimuth_deg: number | null;
+            /** Rise Compass */
+            rise_compass: string;
+            /** Set At */
+            set_at: string | null;
+            /** Visible Duration Sec */
+            visible_duration_sec: number | null;
+            /** Visible End */
+            visible_end: string | null;
+            /** Visible Start */
+            visible_start: string | null;
+        };
+        /** IssPosition */
+        IssPosition: {
+            /** Altitude Km */
+            altitude_km: number | null;
+            /**
+             * Distance Km
+             * @description Great-circle distance from the chosen place, when given.
+             */
+            distance_km: number | null;
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /**
+             * Observed At
+             * Format: date-time
+             */
+            observed_at: string;
+            /**
+             * Region
+             * @description Rough place name, always phrased "Roughly over ...".
+             */
+            region: string;
+            /**
+             * Solar Lat
+             * @description Where the sun is directly overhead.
+             */
+            solar_lat: number | null;
+            /**
+             * Solar Lon
+             * @description Where the sun is directly overhead.
+             */
+            solar_lon: number | null;
+            /**
+             * Source
+             * @enum {string}
+             */
+            source: "wheretheiss.at" | "open-notify";
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+            /**
+             * Sunlit
+             * @description False when the station is in Earth's shadow.
+             */
+            sunlit: boolean | null;
+            /** Velocity Kmh */
+            velocity_kmh: number | null;
+        };
+        /** IssTrack */
+        IssTrack: {
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Points */
+            points: components["schemas"]["IssTrackPoint"][];
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+        };
+        /** IssTrackPoint */
+        IssTrackPoint: {
+            /**
+             * At
+             * Format: date-time
+             */
+            at: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+        };
+        /** LookupEntry */
+        LookupEntry: {
+            /** Aqi */
+            aqi: number | null;
+            /** City */
+            city: string;
+            /** Country */
+            country: string;
+            /** Id */
+            id: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** Next Pass At */
+            next_pass_at: string | null;
+            /**
+             * Recorded At
+             * Format: date-time
+             */
+            recorded_at: string;
+            /** State */
+            state: string | null;
+            /** Temp C */
+            temp_c: number | null;
+        };
+        /** LookupList */
+        LookupList: {
+            /** Entries */
+            entries: components["schemas"]["LookupEntry"][];
+        };
+        /** LookupRequest */
+        LookupRequest: {
+            /** City */
+            city: string;
+            /**
+             * Country
+             * @default
+             */
+            country: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** State */
+            state?: string | null;
+        };
+        /** LookupResult */
+        LookupResult: {
+            entry: components["schemas"]["LookupEntry"];
+            /**
+             * Recorded
+             * @description False when the same place was saved less than 30 minutes ago.
+             */
+            recorded: boolean;
+            /** Throttled Until */
+            throttled_until: string | null;
+        };
+        /** PassList */
+        PassList: {
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** Passes */
+            passes: components["schemas"]["IssPass"][];
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+            /** Tle Age Hours */
+            tle_age_hours: number | null;
+            /** Tle Epoch */
+            tle_epoch: string | null;
+            /**
+             * Tle Stale
+             * @description True when the orbit data is old enough to lose accuracy.
+             */
+            tle_stale: boolean | null;
+        };
+        /** Place */
+        Place: {
+            /** Country */
+            country: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /** Name */
+            name: string;
+            /** State */
+            state?: string | null;
+        };
+        /** Pollutants */
+        Pollutants: {
+            /** Co */
+            co: number | null;
+            /** Nh3 */
+            nh3: number | null;
+            /** No */
+            no: number | null;
+            /** No2 */
+            no2: number | null;
+            /** O3 */
+            o3: number | null;
+            /** Pm10 */
+            pm10: number | null;
+            /** Pm2 5 */
+            pm2_5: number | null;
+            /** So2 */
+            so2: number | null;
+        };
+        /** Stats */
+        Stats: {
+            /** Average Temp C */
+            average_temp_c: number | null;
+            best_aqi: components["schemas"]["AqiRecord"] | null;
+            /** @description The lowest temperature recorded. */
+            coldest: components["schemas"]["TempRecord"] | null;
+            /**
+             * Days Active
+             * @description Distinct UTC dates with at least one lookup.
+             */
+            days_active: number;
+            /**
+             * Lookups With Pass
+             * @description Lookups where an ISS pass was found.
+             */
+            lookups_with_pass: number;
+            most_searched_city: components["schemas"]["CityCount"] | null;
+            /**
+             * Peak Hour Utc
+             * @description The hour of day (UTC) with the most lookups.
+             */
+            peak_hour_utc: number | null;
+            /** Total Lookups */
+            total_lookups: number;
+            /** Trend */
+            trend: components["schemas"]["TrendPoint"][];
+            /** Unique Cities */
+            unique_cities: number;
+            /** @description The highest temperature recorded. */
+            warmest: components["schemas"]["TempRecord"] | null;
+            worst_aqi: components["schemas"]["AqiRecord"] | null;
+        };
+        /** TempRecord */
+        TempRecord: {
+            /** Date */
+            date: string;
+            /** Temp C */
+            temp_c: number;
+        };
+        /** TrendPoint */
+        TrendPoint: {
+            /** Avg Aqi */
+            avg_aqi: number | null;
+            /** Avg Temp C */
+            avg_temp_c: number | null;
+            /** Date */
+            date: string;
+            /**
+             * Lookups
+             * @description Lookups on that day.
+             */
+            lookups: number;
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Context */
+            ctx?: Record<string, never>;
+            /** Input */
+            input?: unknown;
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+        };
+        /** Weather */
+        Weather: {
+            /**
+             * Advice
+             * @description One line, for example 'Take an umbrella.'
+             */
+            advice: string | null;
+            /**
+             * Condition
+             * @description OpenWeatherMap main condition, for example Clouds.
+             */
+            condition: string;
+            /** Description */
+            description: string;
+            /** Feels Like C */
+            feels_like_c: number;
+            /**
+             * Fetched At
+             * Format: date-time
+             * @description When the upstream data was fetched (UTC).
+             */
+            fetched_at: string;
+            /** Humidity Pct */
+            humidity_pct: number;
+            /**
+             * Icon
+             * @description Icon token such as clear, clouds, rain, fog, or unknown.
+             */
+            icon: string;
+            /** Lat */
+            lat: number;
+            /** Lon */
+            lon: number;
+            /**
+             * Stale
+             * @description True when an older value was served after an upstream failure.
+             */
+            stale: boolean;
+            /**
+             * Sunrise At
+             * @description Local sunrise, when the API sends it.
+             */
+            sunrise_at: string | null;
+            /**
+             * Sunset At
+             * @description Local sunset, when the API sends it.
+             */
+            sunset_at: string | null;
+            /** Temp C */
+            temp_c: number;
+            /** Wind Kph */
+            wind_kph: number;
+        };
     };
-    /** ApodEntry */
-    ApodEntry: {
-      /** Copyright */
-      copyright: string | null;
-      /** Date */
-      date: string;
-      /** Explanation */
-      explanation: string;
-      /**
-       * Fetched At
-       * Format: date-time
-       * @description When the upstream data was fetched (UTC).
-       */
-      fetched_at: string;
-      /** Hdurl */
-      hdurl: string | null;
-      /**
-       * Is Placeholder
-       * @description True when NASA returned its logo instead of a picture.
-       */
-      is_placeholder: boolean;
-      /** Media Type */
-      media_type: string;
-      /** Page Url */
-      page_url: string;
-      /**
-       * Stale
-       * @description True when an older value was served after an upstream failure.
-       */
-      stale: boolean;
-      /** Title */
-      title: string;
-      /** Url */
-      url: string | null;
-    };
-    /** AqiRecord */
-    AqiRecord: {
-      /** Aqi */
-      aqi: number;
-      /** Date */
-      date: string;
-      /** Label */
-      label: string;
-    };
-    /** Background */
-    Background: {
-      /** Credit */
-      credit: string;
-      /** Date */
-      date: string;
-      /** Fallback Reason */
-      fallback_reason: string | null;
-      /**
-       * Fetched At
-       * Format: date-time
-       * @description When the upstream data was fetched (UTC).
-       */
-      fetched_at: string;
-      /**
-       * Hd Url
-       * @description Larger image for screens 1600 px and wider.
-       */
-      hd_url: string | null;
-      /** Image Url */
-      image_url: string;
-      /** Is Fallback */
-      is_fallback: boolean;
-      /** Page Url */
-      page_url: string | null;
-      /**
-       * Stale
-       * @description True when an older value was served after an upstream failure.
-       */
-      stale: boolean;
-      /** Title */
-      title: string;
-    };
-    /** CityCount */
-    CityCount: {
-      /** City */
-      city: string;
-      /** Lookups */
-      lookups: number;
-    };
-    /** GeocodeResponse */
-    GeocodeResponse: {
-      /**
-       * Fetched At
-       * Format: date-time
-       * @description When the upstream data was fetched (UTC).
-       */
-      fetched_at: string;
-      /** Query */
-      query: string;
-      /** Results */
-      results: components["schemas"]["Place"][];
-      /**
-       * Stale
-       * @description True when an older value was served after an upstream failure.
-       */
-      stale: boolean;
-    };
-    /** HTTPValidationError */
-    HTTPValidationError: {
-      /** Detail */
-      detail?: components["schemas"]["ValidationError"][];
-    };
-    /** Health */
-    Health: {
-      /**
-       * Status
-       * @constant
-       */
-      status: "ok";
-      /**
-       * Time
-       * Format: date-time
-       */
-      time: string;
-      /** Version */
-      version: string;
-    };
-    /** IssPass */
-    IssPass: {
-      /** Culmination At */
-      culmination_at: string | null;
-      /** Max Elevation Deg */
-      max_elevation_deg: number;
-      /**
-       * Rating
-       * @enum {string}
-       */
-      rating: "excellent" | "good" | "low";
-      /** Rating Label */
-      rating_label: string;
-      /**
-       * Rise At
-       * Format: date-time
-       */
-      rise_at: string;
-      /** Rise Azimuth Deg */
-      rise_azimuth_deg: number | null;
-      /** Rise Compass */
-      rise_compass: string;
-      /** Set At */
-      set_at: string | null;
-      /** Visible Duration Sec */
-      visible_duration_sec: number | null;
-      /** Visible End */
-      visible_end: string | null;
-      /** Visible Start */
-      visible_start: string | null;
-    };
-    /** IssPosition */
-    IssPosition: {
-      /** Altitude Km */
-      altitude_km: number | null;
-      /**
-       * Distance Km
-       * @description Great-circle distance from the chosen place, when given.
-       */
-      distance_km: number | null;
-      /**
-       * Fetched At
-       * Format: date-time
-       * @description When the upstream data was fetched (UTC).
-       */
-      fetched_at: string;
-      /** Lat */
-      lat: number;
-      /** Lon */
-      lon: number;
-      /**
-       * Observed At
-       * Format: date-time
-       */
-      observed_at: string;
-      /**
-       * Region
-       * @description Rough place name, always phrased "Roughly over ...".
-       */
-      region: string;
-      /**
-       * Source
-       * @enum {string}
-       */
-      source: "wheretheiss.at" | "open-notify";
-      /**
-       * Stale
-       * @description True when an older value was served after an upstream failure.
-       */
-      stale: boolean;
-      /**
-       * Sunlit
-       * @description False when the station is in Earth's shadow.
-       */
-      sunlit: boolean | null;
-      /** Velocity Kmh */
-      velocity_kmh: number | null;
-    };
-    /** LookupEntry */
-    LookupEntry: {
-      /** Aqi */
-      aqi: number | null;
-      /** City */
-      city: string;
-      /** Country */
-      country: string;
-      /** Id */
-      id: string;
-      /** Lat */
-      lat: number;
-      /** Lon */
-      lon: number;
-      /** Next Pass At */
-      next_pass_at: string | null;
-      /**
-       * Recorded At
-       * Format: date-time
-       */
-      recorded_at: string;
-      /** State */
-      state: string | null;
-      /** Temp C */
-      temp_c: number | null;
-    };
-    /** LookupList */
-    LookupList: {
-      /** Entries */
-      entries: components["schemas"]["LookupEntry"][];
-    };
-    /** LookupRequest */
-    LookupRequest: {
-      /** City */
-      city: string;
-      /**
-       * Country
-       * @default
-       */
-      country?: string;
-      /** Lat */
-      lat: number;
-      /** Lon */
-      lon: number;
-      /** State */
-      state?: string | null;
-    };
-    /** LookupResult */
-    LookupResult: {
-      entry: components["schemas"]["LookupEntry"];
-      /**
-       * Recorded
-       * @description False when the same place was saved less than 30 minutes ago.
-       */
-      recorded: boolean;
-      /** Throttled Until */
-      throttled_until: string | null;
-    };
-    /** PassList */
-    PassList: {
-      /**
-       * Fetched At
-       * Format: date-time
-       * @description When the upstream data was fetched (UTC).
-       */
-      fetched_at: string;
-      /** Lat */
-      lat: number;
-      /** Lon */
-      lon: number;
-      /** Passes */
-      passes: components["schemas"]["IssPass"][];
-      /**
-       * Stale
-       * @description True when an older value was served after an upstream failure.
-       */
-      stale: boolean;
-      /** Tle Age Hours */
-      tle_age_hours: number | null;
-      /** Tle Epoch */
-      tle_epoch: string | null;
-      /**
-       * Tle Stale
-       * @description True when the orbit data is old enough to lose accuracy.
-       */
-      tle_stale: boolean | null;
-    };
-    /** Place */
-    Place: {
-      /** Country */
-      country: string;
-      /** Lat */
-      lat: number;
-      /** Lon */
-      lon: number;
-      /** Name */
-      name: string;
-      /** State */
-      state?: string | null;
-    };
-    /** Pollutants */
-    Pollutants: {
-      /** Co */
-      co: number | null;
-      /** Nh3 */
-      nh3: number | null;
-      /** No */
-      no: number | null;
-      /** No2 */
-      no2: number | null;
-      /** O3 */
-      o3: number | null;
-      /** Pm10 */
-      pm10: number | null;
-      /** Pm2 5 */
-      pm2_5: number | null;
-      /** So2 */
-      so2: number | null;
-    };
-    /** Stats */
-    Stats: {
-      /** Average Temp C */
-      average_temp_c: number | null;
-      best_aqi: components["schemas"]["AqiRecord"] | null;
-      /**
-       * Days Active
-       * @description Distinct UTC dates with at least one lookup.
-       */
-      days_active: number;
-      /**
-       * Lookups With Pass
-       * @description Lookups where an ISS pass was found.
-       */
-      lookups_with_pass: number;
-      most_searched_city: components["schemas"]["CityCount"] | null;
-      /** Total Lookups */
-      total_lookups: number;
-      /** Trend */
-      trend: components["schemas"]["TrendPoint"][];
-      /** Unique Cities */
-      unique_cities: number;
-      worst_aqi: components["schemas"]["AqiRecord"] | null;
-    };
-    /** TrendPoint */
-    TrendPoint: {
-      /** Avg Aqi */
-      avg_aqi: number | null;
-      /** Avg Temp C */
-      avg_temp_c: number | null;
-      /** Date */
-      date: string;
-    };
-    /** ValidationError */
-    ValidationError: {
-      /** Context */
-      ctx?: Record<string, never>;
-      /** Input */
-      input?: unknown;
-      /** Location */
-      loc: (string | number)[];
-      /** Message */
-      msg: string;
-      /** Error Type */
-      type: string;
-    };
-    /** Weather */
-    Weather: {
-      /**
-       * Condition
-       * @description OpenWeatherMap main condition, for example Clouds.
-       */
-      condition: string;
-      /** Description */
-      description: string;
-      /** Feels Like C */
-      feels_like_c: number;
-      /**
-       * Fetched At
-       * Format: date-time
-       * @description When the upstream data was fetched (UTC).
-       */
-      fetched_at: string;
-      /** Humidity Pct */
-      humidity_pct: number;
-      /**
-       * Icon
-       * @description Icon token such as clear, clouds, rain, fog, or unknown.
-       */
-      icon: string;
-      /** Lat */
-      lat: number;
-      /** Lon */
-      lon: number;
-      /**
-       * Stale
-       * @description True when an older value was served after an upstream failure.
-       */
-      stale: boolean;
-      /** Temp C */
-      temp_c: number;
-      /** Wind Kph */
-      wind_kph: number;
-    };
-  };
-  responses: never;
-  parameters: never;
-  requestBodies: never;
-  headers: never;
-  pathItems: never;
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
-
 export type $defs = Record<string, never>;
-
-export type external = Record<string, never>;
-
 export interface operations {
-
-  /** Air quality at a place */
-  air_quality_api_air_quality_get: {
-    parameters: {
-      query: {
-        /** @description Latitude in degrees. */
-        lat: number;
-        /** @description Longitude in degrees. */
-        lon: number;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["AirQuality"];
+    air_quality_api_air_quality_get: {
+        parameters: {
+            query: {
+                /** @description Latitude in degrees. */
+                lat: number;
+                /** @description Longitude in degrees. */
+                lon: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AirQuality"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  /** NASA picture of the day */
-  apod_entry_api_apod_get: {
-    parameters: {
-      query?: {
-        /** @description YYYY-MM-DD. Defaults to today. */
-        date?: string | null;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["ApodEntry"];
+    air_quality_history_api_air_quality_history_get: {
+        parameters: {
+            query: {
+                /** @description Latitude in degrees. */
+                lat: number;
+                /** @description Longitude in degrees. */
+                lon: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AqiHistory"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  /** Background image for every page */
-  apod_background_api_apod_background_get: {
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Background"];
+    apod_entry_api_apod_get: {
+        parameters: {
+            query?: {
+                /** @description YYYY-MM-DD. Defaults to today. */
+                date?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  /** Search for a city */
-  geocode_api_geocode_get: {
-    parameters: {
-      query: {
-        /** @description City name, optionally with a state or country. */
-        q: string;
-        /** @description Maximum number of matches. */
-        limit?: number;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["GeocodeResponse"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApodEntry"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+    };
+    apod_background_api_apod_background_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-    };
-  };
-  /** Service status */
-  health_api_health_get: {
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Health"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Background"];
+                };
+            };
         };
-      };
     };
-  };
-  /** Past lookups, newest first */
-  list_history_api_history_get: {
-    parameters: {
-      query?: {
-        limit?: number;
-        /** @description Only this city. */
-        city?: string | null;
-      };
-      header?: {
-        /** @description Random per-browser ID. */
-        "x-client-id"?: string | null;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["LookupList"];
+    apod_random_api_apod_random_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApodEntry"];
+                };
+            };
         };
-      };
     };
-  };
-  /** Record a lookup for a place */
-  record_lookup_api_history_post: {
-    parameters: {
-      header?: {
-        /** @description Random per-browser ID. */
-        "x-client-id"?: string | null;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["LookupRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["LookupResult"];
+    geocode_api_geocode_get: {
+        parameters: {
+            query: {
+                /** @description City name, optionally with a state or country. */
+                q: string;
+                /** @description Maximum number of matches. */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeocodeResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  /** Statistics over past lookups */
-  history_stats_api_history_stats_get: {
-    parameters: {
-      header?: {
-        /** @description Random per-browser ID. */
-        "x-client-id"?: string | null;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Stats"];
+    reverse_geocode_api_geocode_reverse_get: {
+        parameters: {
+            query: {
+                /** @description Latitude in degrees. */
+                lat: number;
+                /** @description Longitude in degrees. */
+                lon: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["GeocodeResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  /** Next visible ISS passes */
-  iss_passes_api_iss_passes_get: {
-    parameters: {
-      query: {
-        /** @description Latitude in degrees. */
-        lat: number;
-        /** @description Longitude in degrees. */
-        lon: number;
-        /** @description Maximum number of passes. */
-        limit?: number;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["PassList"];
+    health_api_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Health"];
+                };
+            };
         };
-      };
     };
-  };
-  /** Live ISS position */
-  iss_position_api_iss_position_get: {
-    parameters: {
-      query?: {
-        /** @description Optional place latitude. */
-        lat?: number | null;
-        /** @description Optional place longitude. */
-        lon?: number | null;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["IssPosition"];
+    list_history_api_history_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+                /** @description Only this city. */
+                city?: string | null;
+            };
+            header?: {
+                /** @description Random per-browser ID. */
+                "x-client-id"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LookupList"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
         };
-      };
     };
-  };
-  /** Current weather at a place */
-  current_weather_api_weather_get: {
-    parameters: {
-      query: {
-        /** @description Latitude in degrees. */
-        lat: number;
-        /** @description Longitude in degrees. */
-        lon: number;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Weather"];
+    record_lookup_api_history_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Random per-browser ID. */
+                "x-client-id"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
         };
-      };
-      /** @description Validation Error */
-      422: {
-        content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LookupRequest"];
+            };
         };
-      };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LookupResult"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
     };
-  };
+    delete_history_api_history_delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Random per-browser ID. */
+                "x-client-id"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LookupList"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    history_csv_api_history_csv_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Random per-browser ID. */
+                "x-client-id"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "text/plain": string;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    history_stats_api_history_stats_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                /** @description Random per-browser ID. */
+                "x-client-id"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Stats"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    astros_api_iss_astros_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Astros"];
+                };
+            };
+        };
+    };
+    iss_passes_api_iss_passes_get: {
+        parameters: {
+            query: {
+                /** @description Latitude in degrees. */
+                lat: number;
+                /** @description Longitude in degrees. */
+                lon: number;
+                /** @description Maximum number of passes. */
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PassList"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    iss_position_api_iss_position_get: {
+        parameters: {
+            query?: {
+                /** @description Optional place latitude. */
+                lat?: number | null;
+                /** @description Optional place longitude. */
+                lon?: number | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssPosition"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    iss_track_api_iss_track_get: {
+        parameters: {
+            query?: {
+                /** @description Minutes back and forward. */
+                minutes?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssTrack"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    current_weather_api_weather_get: {
+        parameters: {
+            query: {
+                /** @description Latitude in degrees. */
+                lat: number;
+                /** @description Longitude in degrees. */
+                lon: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Weather"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    forecast_api_weather_forecast_get: {
+        parameters: {
+            query: {
+                /** @description Latitude in degrees. */
+                lat: number;
+                /** @description Longitude in degrees. */
+                lon: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["Forecast"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
 }

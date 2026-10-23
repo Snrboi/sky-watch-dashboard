@@ -81,6 +81,11 @@ def lookup_stats(ctx: "AppContext", client_id: str) -> dict[str, Any]:
     return compute_stats(ctx.history.list_for_client(client_id))
 
 
+def delete_lookups(ctx: "AppContext", client_id: str) -> int:
+    """Remove this browser's lookups. Returns how many were deleted."""
+    return ctx.history.delete_for_client(client_id)
+
+
 def _readings(
     ctx: "AppContext", place: dict[str, Any], now: datetime
 ) -> tuple[float | None, int | None, datetime | None]:

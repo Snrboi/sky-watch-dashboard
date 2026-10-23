@@ -21,6 +21,9 @@ class Health(BaseModel):
     status: Literal["ok"]
     version: str
     time: datetime
+    history_backend: Literal["json", "postgres"] = Field(
+        description="Where lookup history is stored."
+    )
 
 
 class Place(BaseModel):
@@ -46,6 +49,22 @@ class Weather(Meta):
     condition: str = Field(description="OpenWeatherMap main condition, for example Clouds.")
     description: str
     icon: str = Field(description="Icon token such as clear, clouds, rain, fog, or unknown.")
+    sunrise_at: datetime | None = Field(description="Local sunrise, when the API sends it.")
+    sunset_at: datetime | None = Field(description="Local sunset, when the API sends it.")
+    advice: str | None = Field(description="One line, for example 'Take an umbrella.'")
+
+
+class ForecastPoint(BaseModel):
+    at: datetime
+    temp_c: float
+    description: str
+    icon: str = Field(description="Icon token such as clear, clouds, rain, fog, or unknown.")
+
+
+class Forecast(Meta):
+    lat: float
+    lon: float
+    points: list[ForecastPoint] = Field(max_length=24)
 
 
 class Pollutants(BaseModel):
@@ -66,7 +85,22 @@ class AirQuality(Meta):
     label: str | None
     color: str | None = Field(description="Color token: good, fair, moderate, poor, or very-poor.")
     advice: str | None
+    who_over: list[str] = Field(
+        default_factory=list,
+        description="Pollutants above the WHO 24-hour guideline, for example ['pm2_5'].",
+    )
     pollutants: Pollutants = Field(description="Concentrations in micrograms per cubic metre.")
+
+
+class AqiHistoryPoint(BaseModel):
+    at: datetime
+    aqi: int | None = Field(ge=1, le=5)
+
+
+class AqiHistory(Meta):
+    lat: float
+    lon: float
+    points: list[AqiHistoryPoint] = Field(max_length=25)
 
 
 class IssPosition(Meta):
@@ -75,6 +109,8 @@ class IssPosition(Meta):
     altitude_km: float | None
     velocity_kmh: float | None
     sunlit: bool | None = Field(description="False when the station is in Earth's shadow.")
+    solar_lat: float | None = Field(description="Where the sun is directly overhead.")
+    solar_lon: float | None = Field(description="Where the sun is directly overhead.")
     observed_at: datetime
     region: str = Field(description='Rough place name, always phrased "Roughly over ...".')
     distance_km: float | None = Field(
@@ -95,6 +131,26 @@ class IssPass(BaseModel):
     visible_duration_sec: int | None
     rating: Literal["excellent", "good", "low"]
     rating_label: str
+
+
+class IssTrackPoint(BaseModel):
+    lat: float
+    lon: float
+    at: datetime
+
+
+class IssTrack(Meta):
+    points: list[IssTrackPoint] = Field(max_length=241)
+
+
+class AstroPerson(BaseModel):
+    name: str
+    craft: str
+
+
+class Astros(Meta):
+    count: int
+    people: list[AstroPerson]
 
 
 class PassList(Meta):
@@ -191,8 +247,14 @@ class AqiRecord(BaseModel):
 
 class TrendPoint(BaseModel):
     date: str
+    lookups: int = Field(description="Lookups on that day.")
     avg_temp_c: float | None
     avg_aqi: float | None
+
+
+class TempRecord(BaseModel):
+    temp_c: float
+    date: str
 
 
 class Stats(BaseModel):
@@ -201,7 +263,12 @@ class Stats(BaseModel):
     unique_cities: int
     most_searched_city: CityCount | None
     average_temp_c: float | None
+    coldest: TempRecord | None = Field(description="The lowest temperature recorded.")
+    warmest: TempRecord | None = Field(description="The highest temperature recorded.")
     best_aqi: AqiRecord | None
     worst_aqi: AqiRecord | None
     lookups_with_pass: int = Field(description="Lookups where an ISS pass was found.")
+    peak_hour_utc: int | None = Field(
+        ge=0, le=23, description="The hour of day (UTC) with the most lookups."
+    )
     trend: list[TrendPoint]

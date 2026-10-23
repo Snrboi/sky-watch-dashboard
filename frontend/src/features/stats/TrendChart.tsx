@@ -9,7 +9,6 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart";
-import { formatDay } from "@/lib/format";
 import type { TrendPoint } from "@/types";
 
 const chartConfig = {
@@ -39,24 +38,13 @@ function temperatureDomain(points: TrendPoint[]): [number, number] {
   return [Math.floor(Math.min(...temps) - 2), Math.ceil(Math.max(...temps) + 2)];
 }
 
-function summaryText(points: TrendPoint[]): string {
-  if (points.length === 0) {
-    return "No trend yet.";
-  }
-  if (points.length === 1) {
-    return `Trend for ${formatDay(points[0].date)}.`;
-  }
-  return `Trend across ${points.length} days, from ${formatDay(points[0].date)} to ${formatDay(points[points.length - 1].date)}.`;
-}
-
 /** Daily averages. Temperature is read on the left axis, and AQI (1 to 5) on the right. */
 export function TrendChart({ points }: { points: TrendPoint[] }) {
   const reduce = useReducedMotion();
   const showDots = points.length <= DOT_LIMIT;
 
   return (
-    <div className="space-y-3">
-      <ChartContainer config={chartConfig} className="h-72 w-full">
+    <ChartContainer config={chartConfig} className="h-72 w-full">
         <LineChart data={points} accessibilityLayer margin={{ top: 8, right: 8, bottom: 0, left: 0 }}>
           <CartesianGrid vertical={false} strokeOpacity={0.12} />
           <XAxis
@@ -108,7 +96,5 @@ export function TrendChart({ points }: { points: TrendPoint[] }) {
           />
         </LineChart>
       </ChartContainer>
-      <p className="text-xs text-muted-foreground">{summaryText(points)}</p>
-    </div>
   );
 }
