@@ -8,7 +8,8 @@ import { Metric } from "@/components/common/Metric";
 import { QueryBody, SkeletonLines } from "@/components/common/QueryBody";
 import { SectionCard } from "@/components/common/SectionCard";
 import { StaleNotice } from "@/components/common/StaleNotice";
-import { ratingVariant, riseText } from "@/features/iss/iss-format";
+import { useNow } from "@/hooks/use-now";
+import { formatCountdown, ratingVariant, riseText } from "@/features/iss/iss-format";
 import { useIssPasses } from "@/features/iss/use-iss";
 import { formatDateTime, formatDuration } from "@/lib/format";
 import type { Place } from "@/types";
@@ -18,10 +19,11 @@ interface NextPassCardProps {
   className?: string;
 }
 
-/** The next visible pass for the Overview. */
+/** The next visible pass for the Overview, with a live countdown. */
 export function NextPassCard({ place, className }: NextPassCardProps) {
   const query = useIssPasses(place, 3);
   const list = query.data;
+  const now = useNow(30_000);
 
   return (
     <SectionCard
@@ -55,6 +57,7 @@ export function NextPassCard({ place, className }: NextPassCardProps) {
       >
         {(data) => {
           const next = data.passes[0];
+          const countdown = formatCountdown(next.rise_at, now);
           return (
             <div className="flex flex-col gap-5">
               {query.isError || data.stale ? <StaleNotice fetchedAt={data.fetched_at} /> : null}
@@ -67,6 +70,11 @@ export function NextPassCard({ place, className }: NextPassCardProps) {
                   <span className="text-sm text-muted-foreground">
                     {riseText(next)}
                   </span>
+                  {countdown ? (
+                    <span className="text-sm font-medium text-sky" aria-live="polite">
+                      {countdown}
+                    </span>
+                  ) : null}
                 </div>
               </div>
               <dl className="grid grid-cols-2 gap-4">

@@ -72,6 +72,14 @@
             "description": "True when an older value was served after an upstream failure.",
             "title": "Stale",
             "type": "boolean"
+          },
+          "who_over": {
+            "description": "Pollutants above the WHO 24-hour guideline, for example ['pm2_5'].",
+            "items": {
+              "type": "string"
+            },
+            "title": "Who Over",
+            "type": "array"
           }
         },
         "required": [
@@ -176,6 +184,74 @@
         "title": "ApodEntry",
         "type": "object"
       },
+      "AqiHistory": {
+        "properties": {
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/AqiHistoryPoint"
+            },
+            "maxItems": 25,
+            "title": "Points",
+            "type": "array"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "lat",
+          "lon",
+          "points"
+        ],
+        "title": "AqiHistory",
+        "type": "object"
+      },
+      "AqiHistoryPoint": {
+        "properties": {
+          "aqi": {
+            "anyOf": [
+              {
+                "maximum": 5.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aqi"
+          },
+          "at": {
+            "format": "date-time",
+            "title": "At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "at",
+          "aqi"
+        ],
+        "title": "AqiHistoryPoint",
+        "type": "object"
+      },
       "AqiRecord": {
         "properties": {
           "aqi": {
@@ -197,6 +273,58 @@
           "date"
         ],
         "title": "AqiRecord",
+        "type": "object"
+      },
+      "AstroPerson": {
+        "properties": {
+          "craft": {
+            "title": "Craft",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "craft"
+        ],
+        "title": "AstroPerson",
+        "type": "object"
+      },
+      "Astros": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "people": {
+            "items": {
+              "$ref": "#/components/schemas/AstroPerson"
+            },
+            "title": "People",
+            "type": "array"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "count",
+          "people"
+        ],
+        "title": "Astros",
         "type": "object"
       },
       "Background": {
@@ -300,6 +428,76 @@
         "title": "CityCount",
         "type": "object"
       },
+      "Forecast": {
+        "properties": {
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/ForecastPoint"
+            },
+            "maxItems": 8,
+            "title": "Points",
+            "type": "array"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "lat",
+          "lon",
+          "points"
+        ],
+        "title": "Forecast",
+        "type": "object"
+      },
+      "ForecastPoint": {
+        "properties": {
+          "at": {
+            "format": "date-time",
+            "title": "At",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "icon": {
+            "description": "Icon token such as clear, clouds, rain, fog, or unknown.",
+            "title": "Icon",
+            "type": "string"
+          },
+          "temp_c": {
+            "title": "Temp C",
+            "type": "number"
+          }
+        },
+        "required": [
+          "at",
+          "temp_c",
+          "description",
+          "icon"
+        ],
+        "title": "ForecastPoint",
+        "type": "object"
+      },
       "GeocodeResponse": {
         "properties": {
           "fetched_at": {
@@ -350,6 +548,15 @@
       },
       "Health": {
         "properties": {
+          "history_backend": {
+            "description": "Where lookup history is stored.",
+            "enum": [
+              "json",
+              "postgres"
+            ],
+            "title": "History Backend",
+            "type": "string"
+          },
           "status": {
             "const": "ok",
             "title": "Status",
@@ -368,7 +575,8 @@
         "required": [
           "status",
           "version",
-          "time"
+          "time",
+          "history_backend"
         ],
         "title": "Health",
         "type": "object"
@@ -537,6 +745,30 @@
             "title": "Region",
             "type": "string"
           },
+          "solar_lat": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Where the sun is directly overhead.",
+            "title": "Solar Lat"
+          },
+          "solar_lon": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Where the sun is directly overhead.",
+            "title": "Solar Lon"
+          },
           "source": {
             "enum": [
               "wheretheiss.at",
@@ -582,12 +814,68 @@
           "altitude_km",
           "velocity_kmh",
           "sunlit",
+          "solar_lat",
+          "solar_lon",
           "observed_at",
           "region",
           "distance_km",
           "source"
         ],
         "title": "IssPosition",
+        "type": "object"
+      },
+      "IssTrack": {
+        "properties": {
+          "fetched_at": {
+            "description": "When the upstream data was fetched (UTC).",
+            "format": "date-time",
+            "title": "Fetched At",
+            "type": "string"
+          },
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/IssTrackPoint"
+            },
+            "maxItems": 241,
+            "title": "Points",
+            "type": "array"
+          },
+          "stale": {
+            "description": "True when an older value was served after an upstream failure.",
+            "title": "Stale",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "fetched_at",
+          "stale",
+          "points"
+        ],
+        "title": "IssTrack",
+        "type": "object"
+      },
+      "IssTrackPoint": {
+        "properties": {
+          "at": {
+            "format": "date-time",
+            "title": "At",
+            "type": "string"
+          },
+          "lat": {
+            "title": "Lat",
+            "type": "number"
+          },
+          "lon": {
+            "title": "Lon",
+            "type": "number"
+          }
+        },
+        "required": [
+          "lat",
+          "lon",
+          "at"
+        ],
+        "title": "IssTrackPoint",
         "type": "object"
       },
       "LookupEntry": {
@@ -1020,6 +1308,17 @@
               }
             ]
           },
+          "coldest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TempRecord"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The lowest temperature recorded."
+          },
           "days_active": {
             "description": "Distinct UTC dates with at least one lookup.",
             "title": "Days Active",
@@ -1040,6 +1339,20 @@
               }
             ]
           },
+          "peak_hour_utc": {
+            "anyOf": [
+              {
+                "maximum": 23.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The hour of day (UTC) with the most lookups.",
+            "title": "Peak Hour Utc"
+          },
           "total_lookups": {
             "title": "Total Lookups",
             "type": "integer"
@@ -1054,6 +1367,17 @@
           "unique_cities": {
             "title": "Unique Cities",
             "type": "integer"
+          },
+          "warmest": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TempRecord"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The highest temperature recorded."
           },
           "worst_aqi": {
             "anyOf": [
@@ -1072,12 +1396,33 @@
           "unique_cities",
           "most_searched_city",
           "average_temp_c",
+          "coldest",
+          "warmest",
           "best_aqi",
           "worst_aqi",
           "lookups_with_pass",
+          "peak_hour_utc",
           "trend"
         ],
         "title": "Stats",
+        "type": "object"
+      },
+      "TempRecord": {
+        "properties": {
+          "date": {
+            "title": "Date",
+            "type": "string"
+          },
+          "temp_c": {
+            "title": "Temp C",
+            "type": "number"
+          }
+        },
+        "required": [
+          "temp_c",
+          "date"
+        ],
+        "title": "TempRecord",
         "type": "object"
       },
       "TrendPoint": {
@@ -1107,10 +1452,16 @@
           "date": {
             "title": "Date",
             "type": "string"
+          },
+          "lookups": {
+            "description": "Lookups on that day.",
+            "title": "Lookups",
+            "type": "integer"
           }
         },
         "required": [
           "date",
+          "lookups",
           "avg_temp_c",
           "avg_aqi"
         ],
@@ -1159,6 +1510,18 @@
       },
       "Weather": {
         "properties": {
+          "advice": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "One line, for example 'Take an umbrella.'",
+            "title": "Advice"
+          },
           "condition": {
             "description": "OpenWeatherMap main condition, for example Clouds.",
             "title": "Condition",
@@ -1200,6 +1563,32 @@
             "title": "Stale",
             "type": "boolean"
           },
+          "sunrise_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Local sunrise, when the API sends it.",
+            "title": "Sunrise At"
+          },
+          "sunset_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Local sunset, when the API sends it.",
+            "title": "Sunset At"
+          },
           "temp_c": {
             "title": "Temp C",
             "type": "number"
@@ -1220,7 +1609,10 @@
           "wind_kph",
           "condition",
           "description",
-          "icon"
+          "icon",
+          "sunrise_at",
+          "sunset_at",
+          "advice"
         ],
         "title": "Weather",
         "type": "object"
@@ -1288,6 +1680,65 @@
           }
         },
         "summary": "Air quality at a place",
+        "tags": [
+          "air-quality"
+        ]
+      }
+    },
+    "/api/air-quality/history": {
+      "get": {
+        "operationId": "air_quality_history_api_air_quality_history_get",
+        "parameters": [
+          {
+            "description": "Latitude in degrees.",
+            "in": "query",
+            "name": "lat",
+            "required": true,
+            "schema": {
+              "description": "Latitude in degrees.",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Lat",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Longitude in degrees.",
+            "in": "query",
+            "name": "lon",
+            "required": true,
+            "schema": {
+              "description": "Longitude in degrees.",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Lon",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AqiHistory"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Hourly air quality for the last day",
         "tags": [
           "air-quality"
         ]
@@ -1366,6 +1817,27 @@
         ]
       }
     },
+    "/api/apod/random": {
+      "get": {
+        "operationId": "apod_random_api_apod_random_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApodEntry"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "A random NASA photo",
+        "tags": [
+          "apod"
+        ]
+      }
+    },
     "/api/geocode": {
       "get": {
         "operationId": "geocode_api_geocode_get",
@@ -1425,6 +1897,65 @@
         ]
       }
     },
+    "/api/geocode/reverse": {
+      "get": {
+        "operationId": "reverse_geocode_api_geocode_reverse_get",
+        "parameters": [
+          {
+            "description": "Latitude in degrees.",
+            "in": "query",
+            "name": "lat",
+            "required": true,
+            "schema": {
+              "description": "Latitude in degrees.",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Lat",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Longitude in degrees.",
+            "in": "query",
+            "name": "lon",
+            "required": true,
+            "schema": {
+              "description": "Longitude in degrees.",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Lon",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeocodeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "The nearest named place for coordinates",
+        "tags": [
+          "geocode"
+        ]
+      }
+    },
     "/api/health": {
       "get": {
         "operationId": "health_api_health_get",
@@ -1447,6 +1978,55 @@
       }
     },
     "/api/history": {
+      "delete": {
+        "operationId": "delete_history_api_history_delete",
+        "parameters": [
+          {
+            "description": "Random per-browser ID.",
+            "in": "header",
+            "name": "x-client-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Random per-browser ID.",
+              "title": "X-Client-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LookupList"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete this browser's lookups",
+        "tags": [
+          "history"
+        ]
+      },
       "get": {
         "operationId": "list_history_api_history_get",
         "parameters": [
@@ -1587,6 +2167,57 @@
         ]
       }
     },
+    "/api/history.csv": {
+      "get": {
+        "operationId": "history_csv_api_history_csv_get",
+        "parameters": [
+          {
+            "description": "Random per-browser ID.",
+            "in": "header",
+            "name": "x-client-id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Random per-browser ID.",
+              "title": "X-Client-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "This browser's lookups as CSV, for a spreadsheet",
+        "tags": [
+          "history"
+        ]
+      }
+    },
     "/api/history/stats": {
       "get": {
         "operationId": "history_stats_api_history_stats_get",
@@ -1635,6 +2266,27 @@
         "summary": "Statistics over past lookups",
         "tags": [
           "history"
+        ]
+      }
+    },
+    "/api/iss/astros": {
+      "get": {
+        "operationId": "astros_api_iss_astros_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Astros"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "People in space right now",
+        "tags": [
+          "iss"
         ]
       }
     },
@@ -1784,6 +2436,53 @@
         ]
       }
     },
+    "/api/iss/track": {
+      "get": {
+        "operationId": "iss_track_api_iss_track_get",
+        "parameters": [
+          {
+            "description": "Minutes back and forward.",
+            "in": "query",
+            "name": "minutes",
+            "required": false,
+            "schema": {
+              "default": 45,
+              "description": "Minutes back and forward.",
+              "maximum": 120,
+              "minimum": 1,
+              "title": "Minutes",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IssTrack"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "The ISS ground track",
+        "tags": [
+          "iss"
+        ]
+      }
+    },
     "/api/weather": {
       "get": {
         "operationId": "current_weather_api_weather_get",
@@ -1838,6 +2537,65 @@
           }
         },
         "summary": "Current weather at a place",
+        "tags": [
+          "weather"
+        ]
+      }
+    },
+    "/api/weather/forecast": {
+      "get": {
+        "operationId": "forecast_api_weather_forecast_get",
+        "parameters": [
+          {
+            "description": "Latitude in degrees.",
+            "in": "query",
+            "name": "lat",
+            "required": true,
+            "schema": {
+              "description": "Latitude in degrees.",
+              "maximum": 90,
+              "minimum": -90,
+              "title": "Lat",
+              "type": "number"
+            }
+          },
+          {
+            "description": "Longitude in degrees.",
+            "in": "query",
+            "name": "lon",
+            "required": true,
+            "schema": {
+              "description": "Longitude in degrees.",
+              "maximum": 180,
+              "minimum": -180,
+              "title": "Lon",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Forecast"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "The next few hours",
         "tags": [
           "weather"
         ]

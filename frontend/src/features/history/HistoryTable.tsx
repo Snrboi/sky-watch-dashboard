@@ -9,10 +9,10 @@ export function HistoryTable({ entries }: { entries: LookupEntry[] }) {
   return (
     <div className="-mx-2 overflow-x-auto px-2">
       <Table>
-        <TableCaption className="sr-only">Past lookups, newest first.</TableCaption>
+        <TableCaption className="sr-only">Location lookup history.</TableCaption>
         <TableHeader>
           <TableRow className="border-white/10 hover:bg-transparent">
-            <TableHead scope="col">When</TableHead>
+            <TableHead scope="col">Time</TableHead>
             <TableHead scope="col">City</TableHead>
             <TableHead scope="col" className="text-right">Temp</TableHead>
             <TableHead scope="col">AQI</TableHead>

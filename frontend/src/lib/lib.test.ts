@@ -3,7 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { ApiError, apiGet, apiPost, buildUrl } from "@/lib/api";
 import { aqiStyle, tokenForAqi } from "@/lib/aqi";
 import { addDays } from "@/lib/dates";
-import { formatCoordinates, formatDay, formatDuration, formatKm, formatRelative, formatTemp } from "@/lib/format";
+import { formatCoordinates, formatDay, formatDuration, formatKm, formatRelative, formatTemp, formatTime24 } from "@/lib/format";
 import { shouldJump, project, MAP_WIDTH } from "@/lib/geo";
 import { motionDuration } from "@/lib/motion";
 import { DEFAULT_PLACE, getClientId, isPlace, loadPlace, savePlace } from "@/lib/storage";
@@ -53,6 +53,11 @@ describe("formatting", () => {
     expect(formatTemp(28.4)).toBe("28°");
     expect(formatTemp(null)).toBe("—");
     expect(formatCoordinates(4.8156, -7.0498)).toBe("4.82° N, 7.05° W");
+  });
+
+  it("formats forecast times with a 24-hour clock", () => {
+    expect(formatTime24("2026-10-08T15:07:00Z")).toMatch(/^\d{2}:\d{2}$/);
+    expect(formatTime24(null)).toBe("—");
   });
 
   it("describes relative times", () => {

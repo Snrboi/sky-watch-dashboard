@@ -26,6 +26,12 @@ def apod_entry(
     return ApodEntry(**cached.value, fetched_at=cached.fetched_at, stale=cached.stale)
 
 
+@router.get("/apod/random", response_model=ApodEntry, summary="A random NASA photo")
+def apod_random(ctx: CtxDep) -> ApodEntry:
+    cached = apod_service.get_random(ctx, utc_now().date())
+    return ApodEntry(**cached.value, fetched_at=cached.fetched_at, stale=cached.stale)
+
+
 @router.get(
     "/apod/background",
     response_model=Background,

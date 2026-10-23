@@ -21,6 +21,8 @@ class HistoryRepository(Protocol):
 
     def list_for_client(self, client_id: str) -> list[dict[str, Any]]: ...
 
+    def delete_for_client(self, client_id: str) -> int: ...
+
     def close(self) -> None: ...
 
 
@@ -44,6 +46,16 @@ class JsonHistoryRepository:
         """Records for one browser, oldest first."""
         with self._lock:
             return [record for record in self._read() if record.get("client_id") == client_id]
+
+    def delete_for_client(self, client_id: str) -> int:
+        """Drop one browser's records. Returns how many were removed."""
+        with self._lock:
+            records = self._read()
+            kept = [record for record in records if record.get("client_id") != client_id]
+            removed = len(records) - len(kept)
+            if removed:
+                self._write(kept)
+            return removed
 
     def _read(self) -> list[dict[str, Any]]:
         try:

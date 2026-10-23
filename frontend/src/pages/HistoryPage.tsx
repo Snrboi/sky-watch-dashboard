@@ -1,4 +1,4 @@
-import { History } from "lucide-react";
+import { Download, History, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -9,32 +9,60 @@ import { SectionCard } from "@/components/common/SectionCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HistoryTable } from "@/features/history/HistoryTable";
-import { useHistory } from "@/features/history/use-history";
+import { downloadHistoryCsv, useDeleteHistory, useHistory } from "@/features/history/use-history";
 
-/** Lookups in this browser, newest first, with a city filter (PRD F-08). */
+/** Recent saved lookups with a city filter (PRD F-08). */
 export default function HistoryPage() {
   const query = useHistory();
   const [filter, setFilter] = useState("");
+  const [confirming, setConfirming] = useState(false);
+  const remove = useDeleteHistory();
+
+  function exportCsv() {
+    void downloadHistoryCsv().catch(() => {
+      // The download failing is visible in the browser; nothing to show inline.
+    });
+  }
+
+  function clearHistory() {
+    if (!confirming) {
+      setConfirming(true);
+      return;
+    }
+    setConfirming(false);
+    remove.mutate();
+  }
 
   return (
     <div className="space-y-8">
-      <PageHeader
-        eyebrow="This browser"
-        title="History"
-        description="Your recent lookups, newest first. A place is saved at most once every 30 minutes."
-      />
+      <PageHeader title="History" />
       <SectionCard
         title="Lookups"
         icon={History}
         action={
-          <Input
-            type="search"
-            aria-label="Filter by city"
-            placeholder="Filter by city"
-            value={filter}
-            onChange={(event) => setFilter(event.target.value)}
-            className="h-8 w-44 border-white/10 bg-white/5"
-          />
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={exportCsv}>
+              <Download aria-hidden="true" />
+              CSV
+            </Button>
+            <Button
+              variant={confirming ? "destructive" : "outline"}
+              size="sm"
+              onClick={clearHistory}
+              disabled={remove.isPending || query.data?.entries.length === 0}
+            >
+              <Trash2 aria-hidden="true" />
+              {confirming ? "Confirm clear" : "Clear"}
+            </Button>
+            <Input
+              type="search"
+              aria-label="Filter by city"
+              placeholder="Filter by city"
+              value={filter}
+              onChange={(event) => setFilter(event.target.value)}
+              className="h-8 w-44 border-white/10 bg-white/5"
+            />
+          </div>
         }
       >
         <QueryBody

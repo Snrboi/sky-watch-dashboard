@@ -5,6 +5,7 @@ import { FadeSwap } from "@/components/motion/FadeSwap";
 import { Reveal } from "@/components/motion/Reveal";
 import { AqiCard } from "@/features/air-quality/AqiCard";
 import { PhotoCard } from "@/features/apod/PhotoCard";
+import { ForecastCard } from "@/features/weather/ForecastCard";
 import { useLocation } from "@/features/location/location-context";
 import { IssCard } from "@/features/iss/IssCard";
 import { NextPassCard } from "@/features/iss/NextPassCard";
@@ -32,12 +33,11 @@ export default function OverviewPage() {
   return (
     <div className="space-y-8">
       <PageHeader
-        eyebrow="Right now"
         title={`Sky over ${place.name}`}
         description={`${region} · ${formatCoordinates(place.lat, place.lon)}`}
       />
       <FadeSwap swapKey={placeKey} className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <Reveal index={0} className="md:col-span-2">
+        <Reveal index={0}>
           <WeatherCard place={place} className="h-full" />
         </Reveal>
         <Reveal index={1}>
@@ -50,6 +50,9 @@ export default function OverviewPage() {
           <NextPassCard place={place} className="h-full" />
         </Reveal>
         <Reveal index={4}>
+          <ForecastCard place={place} className="h-full" />
+        </Reveal>
+        <Reveal index={5}>
           <PhotoCard className="h-full" />
         </Reveal>
       </FadeSwap>

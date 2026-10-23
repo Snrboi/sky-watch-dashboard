@@ -61,6 +61,44 @@ export function savePlace(place: Place): void {
   }
 }
 
+const RECENT_KEY = "skywatch.places.v1";
+const RECENT_LIMIT = 5;
+
+function isPlaceList(value: unknown): value is Place[] {
+  return Array.isArray(value) && value.every((item) => isPlace(item));
+}
+
+/** The last places chosen, most recent first. */
+export function loadRecentPlaces(): Place[] {
+  try {
+    const raw = window.localStorage.getItem(RECENT_KEY);
+    if (raw) {
+      const parsed: unknown = JSON.parse(raw);
+      if (isPlaceList(parsed)) {
+        return parsed.slice(0, RECENT_LIMIT);
+      }
+    }
+  } catch {
+    // Unreadable storage: no recents.
+  }
+  return [];
+}
+
+/** Remembers a choice, most recent first, without duplicates. */
+export function saveRecentPlace(place: Place): void {
+  try {
+    const others = loadRecentPlaces().filter(
+      (item) => !(item.lat === place.lat && item.lon === place.lon),
+    );
+    window.localStorage.setItem(
+      RECENT_KEY,
+      JSON.stringify([place, ...others].slice(0, RECENT_LIMIT)),
+    );
+  } catch {
+    // Recents are a convenience; failing to save them changes nothing else.
+  }
+}
+
 function newClientId(): string {
   const random = globalThis.crypto?.randomUUID?.();
   return random ?? `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 14)}`;

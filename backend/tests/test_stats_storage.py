@@ -76,7 +76,12 @@ def test_trend_is_daily_and_sorted():
         ]
     )
     assert [point["date"] for point in stats["trend"]] == ["2026-10-07", "2026-10-08"]
-    assert stats["trend"][0] == {"date": "2026-10-07", "avg_temp_c": 30.5, "avg_aqi": 3.0}
+    assert stats["trend"][0] == {
+        "date": "2026-10-07",
+        "lookups": 2,
+        "avg_temp_c": 30.5,
+        "avg_aqi": 3.0,
+    }
 
 
 def test_repository_scopes_records_to_one_browser(tmp_path):

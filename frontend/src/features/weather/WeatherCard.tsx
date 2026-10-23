@@ -6,6 +6,7 @@ import { SectionCard } from "@/components/common/SectionCard";
 import { StaleNotice } from "@/components/common/StaleNotice";
 import { AnimatedNumber } from "@/components/motion/AnimatedNumber";
 import { useWeather } from "@/features/weather/use-weather";
+import { formatTime } from "@/lib/format";
 import { weatherIcon } from "@/lib/weather";
 import type { Place } from "@/types";
 
@@ -51,6 +52,11 @@ export function WeatherCard({ place, className }: WeatherCardProps) {
                 </span>
               </p>
             </div>
+            {current.advice ? (
+              <p className="text-sm text-pretty text-muted-foreground">
+                {current.advice}
+              </p>
+            ) : null}
             <dl className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3">
               <Metric
                 label="Humidity"
@@ -69,6 +75,11 @@ export function WeatherCard({ place, className }: WeatherCardProps) {
                 }
               />
               <Metric label="Condition" value={current.condition} />
+              <Metric
+                label="Sunrise"
+                value={formatTime(current.sunrise_at)}
+              />
+              <Metric label="Sunset" value={formatTime(current.sunset_at)} />
             </dl>
           </div>
         )}

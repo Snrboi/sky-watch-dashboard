@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 36" fill="none">
+  <defs>
+    <linearGradient id="solar" x1="28" y1="4" x2="28" y2="32" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE2A0"/>
+      <stop offset=".48" stop-color="#D99542"/>
+      <stop offset="1" stop-color="#744A30"/>
+    </linearGradient>
+    <linearGradient id="module" x1="21" y1="12" x2="35" y2="24" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF"/>
+      <stop offset=".52" stop-color="#B8D1DF"/>
+      <stop offset="1" stop-color="#668397"/>
+    </linearGradient>
+  </defs>
+  <g stroke="#FFE6B2" stroke-width=".55">
+    <rect x="2.5" y="4.5" width="14" height="27" rx="1.2" fill="url(#solar)"/>
+    <rect x="39.5" y="4.5" width="14" height="27" rx="1.2" fill="url(#solar)"/>
+    <path d="M7.2 4.8v26.4M12 4.8v26.4M2.8 11.2h13.4M2.8 18h13.4M2.8 24.8h13.4M44 4.8v26.4M48.8 4.8v26.4M39.8 11.2h13.4M39.8 18h13.4M39.8 24.8h13.4" opacity=".9"/>
+  </g>
+  <g stroke="#E7F6FF" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M15.5 18h25M17 15.5l4 2.5-4 2.5M39 15.5 35 18l4 2.5" stroke-width="1.2"/>
+    <path d="M22 12.5 18 8M34 12.5 38 8M22 23.5l-4 4M34 23.5l4 4" stroke-width=".85" opacity=".9"/>
+  </g>
+  <rect x="21" y="12" width="14" height="12" rx="3.2" fill="url(#module)" stroke="#F7FCFF" stroke-width=".8"/>
+  <rect x="24" y="14.1" width="8" height="7.8" rx="2" fill="#163A52" stroke="#9EC6DB" stroke-width=".7"/>
+  <path d="M27.5 14.2v7.6M29 10.3v-2m0 20v-2" stroke="#F4FBFF" stroke-width="1" stroke-linecap="round"/>
+  <circle cx="28" cy="18" r="1.6" fill="#38D8FF" stroke="#FFF" stroke-width=".8"/>
+  <path d="M20.5 18h-3M35.5 18h3" stroke="#FFF" stroke-width="1.4" stroke-linecap="round"/>
+</svg>

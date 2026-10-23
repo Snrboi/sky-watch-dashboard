@@ -14,9 +14,9 @@ export function PageHeader({ eyebrow, title, description, actions }: PageHeaderP
         {eyebrow ? (
           <p className="text-xs font-medium tracking-[0.14em] text-muted-foreground uppercase">{eyebrow}</p>
         ) : null}
-        <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">{title}</h1>
+        <h1 className="break-words text-2xl font-semibold tracking-tight text-balance sm:text-3xl xl:text-4xl">{title}</h1>
         {description ? (
-          <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">{description}</p>
+          <p className="max-w-2xl break-words text-sm text-pretty text-muted-foreground sm:text-base">{description}</p>
         ) : null}
       </div>
       {actions ? <div className="flex shrink-0 items-center gap-2">{actions}</div> : null}

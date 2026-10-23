@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { apiGet, apiPost } from "@/lib/api";
+import { apiGet, apiPost, CLIENT_ID_HEADER } from "@/lib/api";
 import { getClientId } from "@/lib/storage";
 import type { LookupList, LookupRequest, LookupResult, Place, Stats } from "@/types";
 
@@ -43,4 +43,42 @@ export function useRecordLookup() {
       }
     },
   });
+}
+
+/** Deletes this browser's lookups from the server. */
+export function useDeleteHistory() {
+  const queryClient = useQueryClient();
+  const clientId = getClientId();
+  return useMutation({
+    mutationFn: async () => {
+      const response = await fetch("/api/history", {
+        method: "DELETE",
+        headers: { [CLIENT_ID_HEADER]: clientId },
+      });
+      if (!response.ok) {
+        throw new Error(`The server answered with HTTP ${response.status}.`);
+      }
+    },
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["history"] });
+      void queryClient.invalidateQueries({ queryKey: ["history-stats"] });
+    },
+  });
+}
+
+/** Downloads this browser's lookups as a spreadsheet file. */
+export async function downloadHistoryCsv(): Promise<void> {
+  const response = await fetch("/api/history.csv", {
+    headers: { [CLIENT_ID_HEADER]: getClientId() },
+  });
+  if (!response.ok) {
+    throw new Error(`The server answered with HTTP ${response.status}.`);
+  }
+  const blob = await response.blob();
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "sky-watch-history.csv";
+  link.click();
+  URL.revokeObjectURL(url);
 }

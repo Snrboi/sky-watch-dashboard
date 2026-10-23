@@ -1,9 +1,30 @@
-.env/
-__pycache__/
-.pytest_cache/
-.mypy_cache/
-library.json
-*.pyc
-.DS_Store
-_test_run/
+# Secrets and local settings. Commit .env.example, never .env.
 .env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+backend/.venv/
+.vscode/
+
+# Runtime data. history.json and its backups stay on the machine.
+backend/data/*
+!backend/data/.gitkeep
+
+# Frontend
+node_modules/
+frontend/dist/
+
+# Generated
+backend/openapi.json
+
+# Misc
+.DS_Store
+library.json
+_test_run/

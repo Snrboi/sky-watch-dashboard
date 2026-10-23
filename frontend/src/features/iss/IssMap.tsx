@@ -1,14 +1,16 @@
 import { animate, motion, useMotionValue, useReducedMotion } from "motion/react";
-import { useEffect } from "react";
+import { useMemo, useEffect } from "react";
 
 import {
   GRATICULE_PATH,
   LAND_PATH,
   MAP_HEIGHT,
   MAP_WIDTH,
+  polygonPath,
   project,
   shouldJump,
   SPHERE_PATH,
+  terminatorPolygon,
   type MapPoint,
 } from "@/lib/geo";
 import { MOTION } from "@/lib/motion";
@@ -20,13 +22,22 @@ interface IssMapProps {
 }
 
 /**
- * A stylized dark map: Natural Earth land drawn with d3-geo. No tiles, no keys.
- * The ISS marker glides to each 5-second update and its halo pulses. Those are the two loops
- * allowed on screen. Reduced motion removes both.
+ * A stylized dark map fallback: Natural Earth land drawn with d3-geo. No tiles,
+ * no keys. The night half is shaded from the sun's coordinates; the ISS marker
+ * glides to each update with a pulsing halo. Reduced motion removes both effects.
  */
 export function IssMap({ position, place }: IssMapProps) {
   const issPoint = position ? project(position.lat, position.lon) : null;
   const cityPoint = project(place.lat, place.lon);
+
+  const nightPath = useMemo(() => {
+    if (!position?.solar_lat || !position?.solar_lon) {
+      return null;
+    }
+    const polygon = terminatorPolygon(position.solar_lat, position.solar_lon);
+    return polygon ? polygonPath(polygon) : null;
+  }, [position]);
+
 
   return (
     <svg
@@ -42,16 +53,17 @@ export function IssMap({ position, place }: IssMapProps) {
       <path d={SPHERE_PATH} className="fill-white/[0.02] stroke-white/10" strokeWidth={1} />
       <path d={GRATICULE_PATH} className="fill-none stroke-white/[0.07]" strokeWidth={0.6} />
       <path d={LAND_PATH} className="fill-white/[0.1] stroke-white/20" strokeWidth={0.6} />
+      {nightPath ? <path d={nightPath} className="fill-black/40" aria-hidden="true" /> : null}
       {cityPoint ? (
         <g>
           <circle
             cx={cityPoint.x}
             cy={cityPoint.y}
             r={9}
-            className="fill-none stroke-foreground/40"
+            className="fill-none stroke-[#ff3b47]/80"
             strokeWidth={1}
           />
-          <circle cx={cityPoint.x} cy={cityPoint.y} r={3.5} className="fill-foreground" />
+          <circle cx={cityPoint.x} cy={cityPoint.y} r={3.5} className="fill-[#ff3b47]" />
         </g>
       ) : null}
       {issPoint ? <IssMarker point={issPoint} /> : null}

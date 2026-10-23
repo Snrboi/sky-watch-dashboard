@@ -33,9 +33,12 @@ def compute_stats(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
             "unique_cities": 0,
             "most_searched_city": None,
             "average_temp_c": None,
+            "coldest": None,
+            "warmest": None,
             "best_aqi": None,
             "worst_aqi": None,
             "lookups_with_pass": 0,
+            "peak_hour_utc": None,
             "trend": [],
         }
 
@@ -44,7 +47,11 @@ def compute_stats(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
     temps: list[float] = []
     best: tuple[int, datetime] | None = None
     worst: tuple[int, datetime] | None = None
+    coldest: tuple[float, datetime] | None = None
+    warmest: tuple[float, datetime] | None = None
+    hours: dict[int, int] = {}
     buckets: dict[str, dict[str, list[float]]] = {}
+    counts: dict[str, int] = {}
     lookups_with_pass = 0
 
     for when, record in usable:
@@ -57,10 +64,17 @@ def compute_stats(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
         temp = _number(record.get("temp_c"))
         aqi = _aqi_value(record.get("aqi"))
         day = when.date().isoformat()
+        counts[day] = counts.get(day, 0) + 1
         bucket = buckets.setdefault(day, {"temp": [], "aqi": []})
         if temp is not None:
             temps.append(temp)
             bucket["temp"].append(temp)
+            # Strict comparisons keep the earliest occurrence of a tied value.
+            if coldest is None or temp < coldest[0]:
+                coldest = (temp, when)
+            if warmest is None or temp > warmest[0]:
+                warmest = (temp, when)
+        hours[when.hour] = hours.get(when.hour, 0) + 1
         if aqi is not None:
             bucket["aqi"].append(float(aqi))
             # Strict comparisons keep the earliest occurrence of a tied value.
@@ -82,12 +96,16 @@ def compute_stats(records: Iterable[Mapping[str, Any]]) -> dict[str, Any]:
         "unique_cities": len(city_counts),
         "most_searched_city": most_searched,
         "average_temp_c": _mean(temps, 1),
+        "coldest": _temp_record(coldest),
+        "warmest": _temp_record(warmest),
         "best_aqi": _aqi_record(best),
         "worst_aqi": _aqi_record(worst),
         "lookups_with_pass": lookups_with_pass,
+        "peak_hour_utc": max(hours, key=hours.get) if hours else None,
         "trend": [
             {
                 "date": day,
+                "lookups": counts.get(day, 0),
                 "avg_temp_c": _mean(bucket["temp"], 1),
                 "avg_aqi": _mean(bucket["aqi"], 1),
             }
@@ -112,6 +130,13 @@ def _mean(values: list[float], digits: int) -> float | None:
     if not values:
         return None
     return round(sum(values) / len(values), digits)
+
+
+def _temp_record(pair: tuple[float, datetime] | None) -> dict[str, Any] | None:
+    if pair is None:
+        return None
+    temp, when = pair
+    return {"temp_c": round(temp, 1), "date": when.date().isoformat()}
 
 
 def _aqi_record(pair: tuple[int, datetime] | None) -> dict[str, Any] | None:

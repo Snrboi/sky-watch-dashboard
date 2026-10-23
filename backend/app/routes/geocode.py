@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Query
 
-from app.deps import CtxDep
+from app.deps import CtxDep, LatQuery, LonQuery
 from app.errors import BadRequestError
 from app.schemas import GeocodeResponse, Place
 from app.services import geocoding
@@ -26,6 +26,22 @@ def geocode(
     return GeocodeResponse(
         query=query,
         results=[Place(**item) for item in cached.value],
+        fetched_at=cached.fetched_at,
+        stale=cached.stale,
+    )
+
+
+@router.get(
+    "/geocode/reverse",
+    response_model=GeocodeResponse,
+    summary="The nearest named place for coordinates",
+)
+def reverse_geocode(ctx: CtxDep, lat: LatQuery, lon: LonQuery) -> GeocodeResponse:
+    cached = geocoding.reverse_geocode(ctx, lat, lon)
+    results = [Place(**cached.value)] if cached.value is not None else []
+    return GeocodeResponse(
+        query=f"{lat}, {lon}",
+        results=results,
         fetched_at=cached.fetched_at,
         stale=cached.stale,
     )

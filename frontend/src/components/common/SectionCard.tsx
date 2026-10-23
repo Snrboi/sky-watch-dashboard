@@ -39,11 +39,11 @@ export function SectionCard({
       )}
     >
       <CardHeader>
-        <CardTitle role="heading" aria-level={2} className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-          {Icon ? <Icon className="size-4" aria-hidden="true" /> : null}
-          <span>{title}</span>
+        <CardTitle role="heading" aria-level={2} className="flex min-w-0 items-center gap-2 text-sm font-medium text-muted-foreground">
+          {Icon ? <Icon className="size-4 shrink-0" aria-hidden="true" /> : null}
+          <span className="min-w-0 break-words text-pretty">{title}</span>
         </CardTitle>
-        {description ? <CardDescription>{description}</CardDescription> : null}
+        {description ? <CardDescription className="min-w-0 break-words text-pretty">{description}</CardDescription> : null}
         {action ? <CardAction>{action}</CardAction> : null}
       </CardHeader>
       <CardContent className={bodyClassName}>{children}</CardContent>
